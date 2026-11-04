@@ -16,6 +16,12 @@
   /* la pagina parte vuota: la costruiscono gli agenti. Se lo script non parte, dopo 8 s si mostra tutto */
   document.documentElement.classList.add('b');
   history.scrollRestoration = 'manual';
+  (function () {
+    var q = /[?&]lang=(it|en)/.exec(location.search), l = q && q[1];
+    try { if (l) localStorage.setItem('lang', l); else l = localStorage.getItem('lang'); } catch (e) {}
+    if (l !== 'it' && l !== 'en') l = /^it/i.test(navigator.language || 'it') ? 'it' : 'en';
+    document.documentElement.lang = l;
+  })();
   setTimeout(function () { if (!window.__agenti) document.documentElement.classList.remove('b'); }, 8000);
 </script>
 <style>
@@ -64,6 +70,12 @@ h2.disp{font-size:clamp(46px,8.2vw,124px)}
 .nav ul a{font:500 11px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute);transition:color .2s}
 .nav ul a:hover{color:var(--sky)}
 .nav .btn{padding:11px 16px;font-size:12px}
+.nav .r{display:flex;align-items:center;gap:16px}
+.lang{display:flex;border:1px solid rgba(69,189,255,.35);border-radius:999px;overflow:hidden;font:700 11px/1 var(--mono);letter-spacing:.1em}
+.lang button{all:unset;cursor:pointer;padding:8px 11px;color:var(--mute);transition:color .2s,background .2s}
+.lang button:hover{color:var(--sky)}
+.lang button[aria-pressed=true]{background:var(--sky);color:var(--navy)}
+.lang button:focus-visible{outline:2px solid var(--sky);outline-offset:-2px}
 @media(max-width:860px){.nav ul{display:none}}
 
 /* hero */
@@ -76,7 +88,7 @@ h2.disp{font-size:clamp(46px,8.2vw,124px)}
 .hero-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(30px,5vw,70px);align-items:center;width:100%}
 .hero-top{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:22px}
 .hero h1{font-size:clamp(60px,10.5vw,164px)}
-@media(max-width:600px){.hero h1{font-size:18.5vw}.nav .btn{padding:9px 12px;font-size:11px}.dock .pb{display:none}}
+@media(max-width:600px){.hero h1{font-size:18.5vw}.nav .btn{padding:9px 12px;font-size:11px}.nav .r{gap:8px}.lang button{padding:7px 8px}.dock .pb{display:none}}
 .hero .sub{margin-top:26px;font-weight:800;font-size:clamp(20px,2vw,28px);letter-spacing:-.02em;line-height:1.15}
 .hero .txt{margin-top:12px;color:var(--mute);max-width:46ch}
 .metric{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-top:28px}
@@ -280,7 +292,10 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
     <li><a href="#strumenti" data-b="type">Strumenti</a></li>
     <li><a href="#percorso" data-b="type">Percorso</a></li>
   </ul>
-  <a class="btn" href="#contatti" data-b="box" data-n="btn.cta">Scrivimi →</a>
+  <div class="r">
+    <div class="lang" role="group" aria-label="Lingua / Language"><button type="button" data-l="it" aria-pressed="true">IT</button><button type="button" data-l="en" aria-pressed="false">EN</button></div>
+    <a class="btn" href="#contatti" data-b="box" data-n="btn.cta">Scrivimi →</a>
+  </div>
 </nav>
 
 <header class="hero" id="top" data-sec>
@@ -468,7 +483,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
       <div class="side">
         <span class="num" data-b="drop" data-n="num">05</span>
         <span class="meta" data-b="type">[05 — 05] // Nuova Carrozzeria Accademia</span>
-        <h3><span class="l" data-b="drop" data-n="h3">Vendite</span><span class="l sky" data-b="drop" data-n="h3">eBay</span></h3>
+        <h3><span class="l" data-b="drop" data-n="h3">Vendite</span><span class="l sky" data-b="drop" data-n="h3">su eBay</span></h3>
         <p class="lead" data-b="type" data-n="p">Inserzioni, prezzi dinamici e riconoscimento dei ricambi con l'IA. Pezzi fermi in magazzino diventati vendite: oltre 50 articoli, per circa 4.000 euro.</p>
         <div class="tags"><span class="chip" data-b="box">eBay</span><span class="chip" data-b="box">IA</span><span class="chip" data-b="box">≈ 4.000 €</span></div>
       </div>
@@ -534,8 +549,8 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
       </h2>
       <p class="lead" data-b="type" data-n="p">Perito informatico, poi tanti lavori diversi. Ora automatizzo quello che ho visto fare a mano.</p>
       <div class="cta">
-        <a class="btn" href="CV_Luca_Bianchi_IT.pdf" download data-b="box" data-n="btn.cv">CV italiano ↓</a>
-        <a class="btn ghost" href="CV_Luca_Bianchi_EN.pdf" download data-b="box" data-n="btn.cv">CV English ↓</a>
+        <a class="btn" href="CV_Luca_Bianchi_IT.pdf" download data-b="box" data-n="btn.cv">CV (PDF) italiano ↓</a>
+        <a class="btn ghost" href="CV_Luca_Bianchi_EN.pdf" download data-b="box" data-n="btn.cv">CV (PDF) English ↓</a>
       </div>
     </div>
     <ol class="steps">
@@ -578,6 +593,147 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
 </div>
 
 <script>
+/* traduzione: se la lingua e' inglese i testi vengono sostituiti PRIMA che lo script sotto li divida in lettere */
+(() => {
+  const R = document.documentElement;
+  const EN = {
+    'Luca Bianchi — Web scraping e automazioni in Python': 'Luca Bianchi — Web scraping and Python automation',
+    'Luca Bianchi, Livorno. Web scraping e automazioni in Python che sostituiscono il lavoro fatto a mano.': 'Luca Bianchi, Livorno (Italy). Web scraping and Python automation that replace work done by hand.',
+    'Sistemi che sostituiscono, senza clamore, il lavoro che qualcuno faceva a mano ogni settimana.': 'Systems that quietly replace the work someone used to do by hand every week.',
+    'Chi sono': 'About', 'Lavori': 'Work', 'Strumenti': 'Tools', 'Percorso': 'Path',
+    'Scrivimi →': 'Write to me →',
+    'Python · Automazione': 'Python · Automation',
+    'Web scraping e automazioni in Python.': 'Web scraping and Python automation.',
+    'Costruisco sistemi che sostituiscono, senza clamore, il lavoro che qualcuno faceva a mano ogni settimana.': 'I build systems that quietly replace the work someone used to do by hand every week.',
+    'di tempo su un report mensile': 'time saved on a monthly report',
+    'Vedi i lavori ↓': 'See the work ↓',
+    '✓ Livorno, Italia': '✓ Livorno, Italy',
+    '✓ Italiano · Inglese': '✓ Italian · English',
+    '✓ 30h+ a settimana': '✓ 30h+ a week',
+    'attività trovate in città': 'businesses found in the city',
+    'filtrate quelle senza sito': 'filtered those without a website',
+    'dati mancanti arricchiti': 'missing data filled in',
+    'lead_settimana.csv': 'leads_this_week.csv',
+    'risposte lette': 'replies read',
+    'bounce gestiti': 'bounces handled',
+    'invio a ritmo controllato': 'sending at a controlled pace',
+    'Web scraping ◆ Automazione ◆ Python ◆ n8n ◆ Integrazione API ◆ Bot ◆ Dati ◆ Flutter ◆ Supabase ◆ TypeScript ◆ IA in locale ◆': 'Web scraping ◆ Automation ◆ Python ◆ n8n ◆ API integration ◆ Bots ◆ Data ◆ Flutter ◆ Supabase ◆ TypeScript ◆ Local AI ◆',
+    '// chi_sono.md': '// about_me.md',
+    'Lo scraping è': 'Scraping is', 'solo il 10%.': 'only 10%.',
+    "Il resto è far sì che ogni passaggio fallisca in modo sicuro e riparta da solo, senza che nessuno lo guardi. Preferisco una domanda in più all'inizio che consegnare qualcosa che rispetta la richiesta alla lettera e ne manca il senso.": "The rest is making every step fail safely and restart on its own, with nobody watching. I would rather ask one more question up front than deliver something that follows the request to the letter and misses the point.",
+    'di tempo risparmiato': 'of time saved',
+    'articoli venduti in automatico': 'items sold automatically',
+    'di disponibilità a settimana': 'of availability a week',
+    '// come_la_penso.txt': '// how_i_think.txt',
+    'Se qualcuno lo fa a mano': 'If someone does it by hand', 'si automatizza.': 'it gets automated.',
+    '// il lavoro ripetitivo lo faccio fare al computer.': '// I let the computer do the repetitive work.',
+    '// lavori.py': '// work.py',
+    'Cosa ho': "What I've", 'costruito.': 'built.',
+    '[01 — 05] // Endyo · app iOS e Android': '[01 — 05] // Endyo · iOS and Android app',
+    'armadio AI': 'AI wardrobe',
+    "Un'app che trasforma l'armadio in dati. Fotografi un capo e l'IA ricava nome, marca, colori e taglia, senza compilare nessun modulo. Ogni giorno propone outfit con quello che hai già, in base a meteo e impegni, e li mostra indossati su una tua foto.": "An app that turns your wardrobe into data. Photograph a garment and the AI works out its name, brand, colors and size, with no form to fill in. Every day it suggests outfits from what you already own, based on weather and plans, and shows them worn on a photo of you.",
+    "Dietro c'è un backend su Supabase: database Postgres con regole di sicurezza per riga, 28 funzioni edge in Deno per le parti di IA (analisi dei capi, outfit, prova virtuale, stylist) e gli abbonamenti collegati.": "Behind it sits a Supabase backend: a Postgres database with row-level security, 28 edge functions in Deno for the AI parts (garment analysis, outfits, virtual try-on, stylist) and the connected subscriptions.",
+    'IA': 'AI',
+    'Scheda di un capo in Endyo: giacca biker in pelle con colore, taglia e costo per utilizzo': 'A garment page in Endyo: leather biker jacket with color, size and cost per wear',
+    'Schermata Oggi di Endyo con tre outfit proposti e i negozi partner': 'Endyo Today screen with three suggested outfits and partner stores',
+    "Schermata Look AI di Endyo: scelta del luogo, dall'ufficio all'aperitivo": 'Endyo Look AI screen: choosing the occasion, from the office to drinks',
+    'Prova virtuale di Endyo: outfit con trench beige indossato in una strada': 'Endyo virtual try-on: outfit with a beige trench coat worn on a street',
+    '01 · IL CAPO': '01 · THE GARMENT',
+    'Una foto e il capo è catalogato: marca, colore, taglia e quanto costa ogni volta che lo indossi.': 'One photo and the garment is cataloged: brand, color, size and what it costs each time you wear it.',
+    '02 · OGGI': '02 · TODAY',
+    'Ogni giorno: outfit dal tuo armadio, più idee dai negozi partner per ciò che manca.': 'Every day: outfits from your wardrobe, plus ideas from partner stores for what is missing.',
+    '03 · LOOK AI': '03 · AI LOOK',
+    "Dici dove vai e l'IA compone il look giusto, con le generazioni giornaliere che restano.": 'Say where you are going and the AI puts together the right look, with your daily generations left to spend.',
+    '04 · PROVA': '04 · TRY-ON',
+    'Il look indossato, generato su una foto. Se non convince, lo rigeneri.': "The look worn by you, generated on a photo. If it doesn't convince, regenerate it.",
+    'su n8n': 'on n8n',
+    'Una pipeline in quattro stadi: scansione settimanale dei nuovi contatti, arricchimento dei dati mancanti, lettura di Outlook per risposte e bounce, invio con limiti di frequenza e gestione delle disiscrizioni.': 'A four-stage pipeline: a weekly scan for new contacts, enrichment of missing data, reading Outlook for replies and bounces, and sending with rate limits and unsubscribe handling.',
+    'scansione nuovi contatti': 'new contacts scan',
+    'arricchimento dati': 'data enrichment',
+    'risposte e bounce': 'replies and bounces',
+    '● attiva': '● active', 'ogni settimana': 'every week',
+    'Report': 'Monthly', 'mensile': 'report',
+    "Un'app desktop al posto di una routine mensile su foglio di calcolo fatta a mano. I dati entrano giorno per giorno e i file Excel in uscita sono identici a quelli che il team si aspettava: a valle non è cambiato niente.": "A desktop app in place of a monthly spreadsheet routine done by hand. Data comes in day by day and the Excel files that come out are identical to what the team expected: nothing downstream changed.",
+    '−70% di tempo': '−70% time',
+    'prima: a mano, a fine mese': 'before: by hand, at month end',
+    'ora: giorno per giorno': 'now: day by day',
+    '[04 — 05] // Progetto personale': '[04 — 05] // Personal project',
+    'Ricerca': 'Local', 'in locale': 'search',
+    'Ricerca su grandi archivi personali con embedding calcolati sul computer. Al modello arriva solo la richiesta finale: i dati non lasciano la macchina.': 'Search over large personal archives with embeddings computed on the computer. Only the final request reaches the model: the data never leaves the machine.',
+    'cerca nei miei archivi_': 'search my archives_',
+    'embedding calcolati': 'embeddings computed',
+    'sul PC': 'on the PC',
+    'documenti inviati al modello': 'documents sent to the model',
+    'richiesta finale': 'final request',
+    'solo questa': 'only this',
+    '● 100% in locale': '● 100% local', 'privato': 'private',
+    'Vendite': 'Sales', 'su eBay': 'on eBay',
+    "Inserzioni, prezzi dinamici e riconoscimento dei ricambi con l'IA. Pezzi fermi in magazzino diventati vendite: oltre 50 articoli, per circa 4.000 euro.": 'Listings, dynamic pricing and AI recognition of spare parts. Parts sitting in the warehouse turned into sales: over 50 items, about 4,000 euros.',
+    'ricambio riconosciuto': 'part recognized',
+    'prezzo aggiornato': 'price updated',
+    'inserzione online': 'listing online',
+    '50+ venduti': '50+ sold',
+    '// e poi: un generatore di siti demo da Google Places, uno strumento di geolocalizzazione da immagini, giochi in Unity, Roblox e VR. I lavori per i clienti li racconto senza mostrare i loro dati.': '// and also: a demo-site generator from Google Places, an image geolocation tool, games in Unity, Roblox and VR. I describe client work without showing their data.',
+    '// strumenti.json': '// tools.json',
+    'Con cosa': 'What I', 'lavoro.': 'work with.',
+    "Python è la base. Poi uso quello che serve al progetto: TypeScript e Dart per le app, SQL per i dati, n8n per collegare i servizi, l'IA dove fa risparmiare tempo davvero. I linguaggi sono in ordine di importanza.": 'Python is the foundation. Then I use what the project needs: TypeScript and Dart for apps, SQL for data, n8n to connect services, AI where it really saves time. Languages are listed in order of importance.',
+    'linguaggi.txt · per importanza': 'languages.txt · by importance',
+    'scraping, automazioni, app desktop, bot': 'scraping, automation, desktop apps, bots',
+    'backend di Endyo (funzioni edge su Deno)': 'Endyo backend (edge functions on Deno)',
+    'app mobile per iOS e Android': 'mobile apps for iOS and Android',
+    'siti, script e interfacce web': 'sites, scripts and web interfaces',
+    'database Postgres e sicurezza dei dati': 'Postgres databases and data security',
+    'siti e landing page': 'sites and landing pages',
+    'giochi e VR con Unity': 'games and VR with Unity',
+    'automazioni su Windows': 'Windows automation',
+    'giochi su Roblox': 'games on Roblox',
+    'parti native su iOS': 'native iOS parts',
+    'Automazione': 'Automation',
+    'Integrazione API': 'API integration', 'App e backend': 'Apps and backend',
+    'RAG in locale': 'Local RAG', 'Dati': 'Data', 'Lavoro': 'Work',
+    '// percorso.log': '// path.log',
+    'Il mio': 'My', 'percorso.': 'path.',
+    'Perito informatico, poi tanti lavori diversi. Ora automatizzo quello che ho visto fare a mano.': 'IT technician by training, then many different jobs. Now I automate what I have seen done by hand.',
+    'CV (PDF) italiano ↓': 'CV (PDF) Italian ↓',
+    'Automazioni e scraping': 'Automation and scraping',
+    '2025 → oggi · Lavoratore autonomo': '2025 → today · Self-employed',
+    'Python, n8n e integrazioni per aziende di Livorno e Pisa.': 'Python, n8n and integrations for companies in Livorno and Pisa.',
+    'Finitura carrozzeria': 'Car body finishing',
+    "Finitura dei veicoli prima della consegna. E l'automazione delle vendite eBay dell'officina.": "Finishing vehicles before delivery. And automating the workshop's eBay sales.",
+    'Controllo accessi': 'Access control',
+    'Verifica di documenti e autorizzazioni di ogni mezzo in entrata e in uscita.': 'Checking documents and authorizations for every vehicle coming in and going out.',
+    'Perito informatico': 'IT technician',
+    'Informatica e Telecomunicazioni. Poi E-Commerce Manager e CCNA Cisco.': 'Computer Science and Telecommunications. Then E-Commerce Manager and Cisco CCNA.',
+    '// contatti.txt': '// contact.txt',
+    'Scrivimi.': 'Write to me.',
+    'Costruito dagli agenti mentre scorrevi.': 'Built by the agents while you scrolled.',
+    'agenti': 'agents', 'livelli': 'layers',
+    'costruzione': 'building', 'online': 'online', 'scorri ↓': 'scroll ↓',
+    'Ricostruisci la pagina': 'Rebuild the page',
+    'Lingua / Language': 'Language'
+  };
+  const T = s => R.lang === 'en' && EN[s] ? EN[s] : s;
+  window.__t = T;
+  document.querySelectorAll('.lang button').forEach(b => {
+    b.setAttribute('aria-pressed', String(b.dataset.l === R.lang));
+    b.onclick = () => {
+      if (b.dataset.l === R.lang) return;
+      try { localStorage.setItem('lang', b.dataset.l); } catch (e) {}
+      scrollTo(0, 0);
+      location.href = location.pathname + '?lang=' + b.dataset.l + (/[?&]tutto/.test(location.search) ? '&tutto' : '');
+    };
+  });
+  if (R.lang !== 'en') return;
+  const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  for (let n; (n = w.nextNode());) if (!/^(SCRIPT|STYLE)$/.test(n.parentNode.tagName)) nodes.push(n);
+  nodes.forEach(n => { const k = n.nodeValue.trim(); if (EN[k]) n.nodeValue = n.nodeValue.replace(k, () => EN[k]); });
+  document.querySelectorAll('[alt],[title],[aria-label]').forEach(e => ['alt', 'title', 'aria-label'].forEach(a => { const v = e.getAttribute(a); if (v && EN[v]) e.setAttribute(a, EN[v]); }));
+  document.querySelectorAll('meta[name=description],meta[property="og:title"],meta[property="og:description"]').forEach(m => { const v = m.content; if (EN[v]) m.content = EN[v]; });
+  document.title = T(document.title);
+})();
+</script>
+<script>
 (() => {
   const R = document.documentElement;
   const $ = id => document.getElementById(id);
@@ -591,7 +747,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
   if (reduce || /[?&]tutto/.test(location.search)) {
     R.classList.remove('b');
     $('nl').textContent = total; $('pb').style.transform = 'scaleX(1)';
-    $('st').textContent = 'online'; $('st').className = 'badge idle';
+    $('st').textContent = __t('online'); $('st').className = 'badge idle';
     return;
   }
 
@@ -686,9 +842,9 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
     $('nl').textContent = built;
     $('pb').style.transform = `scaleX(${built / total})`;
     const st = $('st');
-    if (active) { st.textContent = 'costruzione'; st.className = 'badge live'; }
-    else if (built === total) { st.textContent = 'online'; st.className = 'badge'; }
-    else { st.textContent = 'scorri ↓'; st.className = 'badge idle'; }
+    if (active) { st.textContent = __t('costruzione'); st.className = 'badge live'; }
+    else if (built === total) { st.textContent = __t('online'); st.className = 'badge'; }
+    else { st.textContent = __t('scorri ↓'); st.className = 'badge idle'; }
   }
   function done(u) {
     if (u.state === 2) return;
