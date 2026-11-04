@@ -1,0 +1,810 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Luca Bianchi — Web scraping e automazioni in Python</title>
+<meta name="description" content="Luca Bianchi, Livorno. Web scraping e automazioni in Python che sostituiscono il lavoro fatto a mano.">
+<meta name="theme-color" content="#05080d">
+<meta property="og:title" content="Luca Bianchi — Web scraping e automazioni in Python">
+<meta property="og:description" content="Sistemi che sostituiscono, senza clamore, il lavoro che qualcuno faceva a mano ogni settimana.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2305080d'/%3E%3Cpath d='M9 7l15 7.5-6.5 2-2.3 6.5z' fill='%2345bdff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script>
+  /* la pagina parte vuota: la costruiscono gli agenti. Se lo script non parte, dopo 8 s si mostra tutto */
+  document.documentElement.classList.add('b');
+  history.scrollRestoration = 'manual';
+  setTimeout(function () { if (!window.__agenti) document.documentElement.classList.remove('b'); }, 8000);
+</script>
+<style>
+:root{
+  --bg:#05080d; --bg2:#0a1119; --panel:#0b131c;
+  --sky:#45bdff; --sky2:#9bdcff; --deep:#1e90ff; --navy:#03111c;
+  --white:#f3f8fc; --mute:rgba(243,248,252,.64); --dim:rgba(243,248,252,.4);
+  --line:rgba(69,189,255,.18);
+  --disp:"Inter Tight","Arial Black",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  --pad:clamp(20px,5vw,80px); --max:1240px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;overflow-x:clip}
+body{position:relative;background:var(--bg);color:var(--white);font-family:var(--disp);font-size:clamp(15px,.6vw + 11px,18px);line-height:1.55;overflow-x:clip;-webkit-tap-highlight-color:transparent}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--sky);color:var(--navy)}
+.wrap{position:relative;z-index:2;max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
+[data-sec]{position:relative;isolation:isolate}
+
+/* tipografia */
+.label{font:500 13px/1.3 var(--mono);color:var(--sky);letter-spacing:.01em}
+.chip{display:inline-block;font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;padding:7px 10px;border:1px solid rgba(69,189,255,.55);color:var(--sky);white-space:nowrap}
+.disp{font-weight:900;text-transform:uppercase;letter-spacing:-.045em;line-height:.9}
+.disp .l{display:block}
+.sky{color:var(--sky)}
+.glow{text-shadow:0 0 42px rgba(69,189,255,.45)}
+h2.disp{font-size:clamp(46px,8.2vw,124px)}
+.lead{color:var(--mute);max-width:58ch}
+
+/* bottoni */
+.btn{display:inline-flex;align-items:center;gap:10px;font:800 14px/1 var(--disp);text-transform:uppercase;letter-spacing:-.01em;padding:17px 24px;background:var(--sky);color:var(--navy);box-shadow:0 0 34px -4px rgba(69,189,255,.55);transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 0 46px 0 rgba(69,189,255,.7)}
+.btn.ghost{background:rgba(255,255,255,.02);color:var(--white);border:1px solid rgba(243,248,252,.22);box-shadow:none}
+.btn.ghost:hover{border-color:var(--sky);color:var(--sky)}
+.btn.dark{background:var(--navy);color:var(--white);box-shadow:none}
+.btn.dark-ghost{background:transparent;color:var(--navy);border:1.5px solid var(--navy);box-shadow:none}
+
+/* menu */
+.nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:calc(14px + env(safe-area-inset-top)) var(--pad) 14px;background:linear-gradient(var(--bg) 30%,rgba(5,8,13,0));}
+.logo{display:flex;align-items:center;gap:9px;font:900 19px/1 var(--disp);letter-spacing:-.03em;text-transform:uppercase}
+.logo i{display:grid;place-items:center;width:26px;height:26px;border:1.5px solid var(--sky);font-style:normal}
+.logo i svg{width:12px;height:12px;fill:var(--sky)}
+.logo span{color:var(--sky)}
+.nav ul{display:flex;gap:30px;list-style:none}
+.nav ul a{font:500 11px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute);transition:color .2s}
+.nav ul a:hover{color:var(--sky)}
+.nav .btn{padding:11px 16px;font-size:12px}
+@media(max-width:860px){.nav ul{display:none}}
+
+/* hero */
+.hero{min-height:100svh;padding:clamp(110px,16vh,150px) 0 90px;display:flex;align-items:center;overflow:hidden}
+.hero .halo{position:absolute;inset:0;z-index:0;background:radial-gradient(60% 55% at 70% 18%,rgba(30,144,255,.28),transparent 70%),radial-gradient(50% 40% at 15% 100%,rgba(69,189,255,.16),transparent 70%)}
+.floor{position:absolute;left:-40%;right:-40%;bottom:0;height:46%;z-index:0;transform:perspective(520px) rotateX(64deg);transform-origin:50% 100%;background-image:linear-gradient(rgba(69,189,255,.45) 1px,transparent 1px),linear-gradient(90deg,rgba(69,189,255,.45) 1px,transparent 1px);background-size:70px 70px;-webkit-mask-image:linear-gradient(to top,#000 10%,transparent 85%);mask-image:linear-gradient(to top,#000 10%,transparent 85%);animation:run 3.2s linear infinite}
+@keyframes run{to{background-position:0 70px}}
+.orb{position:absolute;z-index:1;right:clamp(20px,8vw,140px);top:clamp(96px,15vh,150px);width:clamp(80px,10vw,140px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#cfeeff 35%,#5cc4ff 75%,#1e90ff);box-shadow:0 0 60px rgba(69,189,255,.55),0 0 160px rgba(69,189,255,.25)}
+.spark{position:absolute;z-index:1;width:22px;height:22px;fill:#fff;filter:drop-shadow(0 0 8px rgba(155,220,255,.9))}
+.hero-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(30px,5vw,70px);align-items:center;width:100%}
+.hero-top{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:22px}
+.hero h1{font-size:clamp(60px,10.5vw,164px)}
+@media(max-width:600px){.hero h1{font-size:18.5vw}.nav .btn{padding:9px 12px;font-size:11px}.dock .pb{display:none}}
+.hero .sub{margin-top:26px;font-weight:800;font-size:clamp(20px,2vw,28px);letter-spacing:-.02em;line-height:1.15}
+.hero .txt{margin-top:12px;color:var(--mute);max-width:46ch}
+.metric{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-top:28px}
+.metric .big{font-weight:900;font-size:clamp(46px,5.4vw,76px);letter-spacing:-.05em;line-height:1;color:var(--sky);text-shadow:0 0 36px rgba(69,189,255,.45)}
+.chip.dot::before{content:"● ";color:var(--sky)}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.checks{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:22px;list-style:none;font:500 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.checks li::first-letter{color:var(--sky)}
+.vis{position:relative;min-height:440px}
+.term{position:absolute;width:min(100%,380px);background:var(--panel);border:1px solid rgba(69,189,255,.4);box-shadow:0 30px 80px -30px rgba(69,189,255,.55)}
+.term.a{left:0;top:10px}
+.term.b{right:0;bottom:0;width:min(88%,330px)}
+.bar{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--sky);color:var(--navy);font:700 11px/1 var(--mono);letter-spacing:.04em}
+.bar i{font-style:normal;letter-spacing:.2em}
+.tb{padding:16px 16px 18px;font:400 13px/1.9 var(--mono);color:var(--white)}
+.tb p{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb .p{color:var(--sky)}
+.tb .ok{color:var(--sky2)}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr}.vis{min-height:360px}.orb{top:auto;bottom:40%}}
+
+/* nastro che scorre */
+.ticker{background:var(--sky);color:var(--navy);overflow:hidden;padding:13px 0;box-shadow:0 0 50px rgba(69,189,255,.35)}
+.track{display:flex;width:max-content;animation:marq 34s linear infinite}
+.track span{font:700 13px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;padding-right:28px}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* sezioni */
+.sec{padding:clamp(100px,16vh,170px) 0}
+.center{text-align:center}
+.center .lead{margin:28px auto 0}
+.center .label{display:block;margin-bottom:22px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:clamp(50px,8vh,90px)}
+.stat{padding:8px 20px;border-left:1px solid var(--line)}
+.stat:first-child{border-left:0}
+.stat .n{display:block;font-weight:900;font-size:clamp(46px,6vw,84px);letter-spacing:-.05em;line-height:1;color:var(--white)}
+.stat .lb{display:block;margin-top:12px;font:500 11px/1.5 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+@media(max-width:620px){.stats{grid-template-columns:1fr;gap:26px}.stat{border-left:0;border-top:1px solid var(--line);padding-top:24px}}
+
+/* fascia azzurra */
+.band{padding:clamp(30px,5vh,60px) 0}
+.band-in{position:relative;background:var(--sky);color:var(--navy);padding:clamp(80px,14vh,150px) var(--pad);text-align:center;overflow:hidden;background-image:radial-gradient(70% 90% at 50% 50%,#7fd2ff,var(--sky) 60%,#2aa6f0)}
+.band-in .label{color:var(--navy);display:block;margin-bottom:24px}
+.band h2{font-size:clamp(40px,7vw,104px)}
+.band .huge{display:block;font-size:clamp(84px,17vw,260px);color:#fff;text-shadow:0 6px 0 var(--navy);letter-spacing:-.06em;line-height:.85;margin-top:8px}
+.band .label.end{margin:34px 0 0}
+
+/* lavori */
+.dots{position:absolute;inset:0;z-index:0;background-image:radial-gradient(rgba(69,189,255,.2) 1px,transparent 1px);background-size:30px 30px;-webkit-mask-image:linear-gradient(transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(transparent,#000 12%,#000 88%,transparent)}
+.proj{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,6vw,90px);align-items:center;margin-top:clamp(80px,14vh,140px)}
+.proj:nth-of-type(even) .side{order:2}
+.num{display:block;font-weight:900;font-size:clamp(96px,13vw,200px);letter-spacing:-.06em;line-height:.8;color:var(--sky);text-shadow:0 0 50px rgba(69,189,255,.5)}
+.meta{display:block;margin-top:20px;font:500 12px/1.5 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.proj h3 .l{display:block}
+.proj h3{margin-top:14px;font-weight:900;text-transform:uppercase;letter-spacing:-.04em;line-height:.92;font-size:clamp(40px,5vw,72px)}
+.proj .lead{margin-top:18px;font-size:.96em}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.panel{background:linear-gradient(180deg,#0d1722,#08101a);border:1px solid rgba(69,189,255,.4);box-shadow:0 40px 90px -40px rgba(69,189,255,.6)}
+.rows{padding:10px 0}
+.r{display:flex;justify-content:space-between;gap:12px;padding:12px 18px;border-bottom:1px solid rgba(69,189,255,.1);font:400 13px/1.4 var(--mono)}
+.r:last-child{border-bottom:0}
+.r b{font-weight:500;color:var(--sky)}
+.r .ok{color:var(--sky2)}
+.pfoot{display:flex;justify-content:space-between;padding:12px 18px;border-top:1px solid rgba(69,189,255,.25);font:500 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--sky)}
+.bars{display:flex;align-items:flex-end;gap:10px;height:150px;padding:20px 18px 0}
+.bars i{flex:1;background:linear-gradient(var(--sky),rgba(69,189,255,.12));box-shadow:0 0 20px rgba(69,189,255,.3)}
+.search{margin:16px 18px 6px;padding:12px 14px;border:1px solid rgba(69,189,255,.5);font:400 14px/1 var(--mono)}
+.search .p{color:var(--sky)}
+.more{margin-top:clamp(70px,12vh,120px);text-align:center;font:500 13px/1.7 var(--mono);color:var(--dim)}
+@media(max-width:860px){.proj{grid-template-columns:1fr}.proj:nth-of-type(even) .side{order:0}}
+
+/* strumenti */
+.two{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(30px,6vw,90px);align-items:center}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:14px;align-items:center;padding:16px 18px;border-bottom:1px solid rgba(69,189,255,.1)}
+.kv:last-child{border-bottom:0}
+.kv>span{font:500 11px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.kv div{display:flex;flex-wrap:wrap;gap:7px}
+.t{font:500 12px/1 var(--mono);padding:7px 10px;background:rgba(69,189,255,.1);border:1px solid rgba(69,189,255,.35);color:var(--white)}
+.t.s{background:var(--sky);color:var(--navy);border-color:var(--sky)}
+@media(max-width:860px){.two{grid-template-columns:1fr}}
+@media(max-width:480px){.kv{grid-template-columns:1fr;gap:10px}}
+
+/* percorso */
+.steps{list-style:none}
+.step{display:grid;grid-template-columns:54px 1fr;gap:10px 16px;padding:26px 0;border-top:1px solid var(--line)}
+.step:last-child{border-bottom:1px solid var(--line)}
+.step>span{font:700 13px/1.6 var(--mono);color:var(--sky)}
+.step h3{font-weight:800;font-size:clamp(20px,2vw,26px);letter-spacing:-.025em;line-height:1.1;text-transform:uppercase}
+.step time{display:block;margin-top:6px;font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--sky2)}
+.step p{margin-top:10px;font:400 13px/1.7 var(--mono);color:var(--mute)}
+.left .cta{margin-top:30px}
+.left .lead{margin-top:22px}
+
+/* contatti */
+.contact .band-in{padding-top:clamp(90px,16vh,170px);padding-bottom:clamp(90px,16vh,170px)}
+.contact h2{font-size:clamp(76px,15vw,230px);letter-spacing:-.06em;line-height:.85}
+.mail{display:inline-block;margin-top:26px;font-weight:900;font-size:clamp(22px,4.2vw,58px);letter-spacing:-.04em;color:#fff;text-shadow:0 3px 0 var(--navy);word-break:break-word}
+.contact .cta{justify-content:center;margin-top:36px}
+footer{padding:28px 0 calc(110px + env(safe-area-inset-bottom))}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font:500 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+
+/* barra degli agenti */
+.dock{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));z-index:80;display:flex;align-items:center;gap:12px;padding:8px 8px 8px 12px;transform:translateX(-50%);background:rgba(9,15,22,.92);border:1px solid rgba(69,189,255,.35);border-radius:999px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 14px 40px -12px rgba(0,0,0,.8);font:500 11px/1 var(--mono);color:var(--mute);white-space:nowrap;animation:dockin .6s cubic-bezier(.2,.9,.3,1.2) both}
+@keyframes dockin{from{transform:translate(-50%,140%)}}
+.avs{display:flex}
+.avs i{width:15px;height:15px;border-radius:50%;border:2px solid #0a0f16;margin-left:-5px}
+.avs i:first-child{margin-left:0}
+.dock b{color:var(--white);font-weight:700}
+.pb{width:70px;height:4px;background:rgba(69,189,255,.18);overflow:hidden}
+.pb i{display:block;height:100%;background:var(--sky);transform-origin:0 50%;transform:scaleX(0);transition:transform .3s}
+.badge{padding:6px 10px;border-radius:999px;background:var(--sky);color:var(--navy);font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:10px}
+.badge.idle{background:rgba(69,189,255,.14);color:var(--sky)}
+.badge.live{animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 5px rgba(69,189,255,.18)}}
+.dock button{width:28px;height:28px;border-radius:50%;border:1px solid rgba(69,189,255,.4);background:none;color:var(--sky);font-size:14px;cursor:pointer}
+@media(max-width:560px){.dock .hide-s{display:none}.pb{width:44px}}
+
+/* ---------- costruzione: tutto nasce dagli agenti ---------- */
+.b [data-b]:not(.on){visibility:hidden}
+.b .ch:not(.on){visibility:hidden}
+.w{white-space:nowrap}
+.b [data-b="drop"] .ch{display:inline-block}
+.b [data-b="drop"] .ch.on{animation:drop .55s cubic-bezier(.2,1.5,.35,1) both}
+@keyframes drop{from{transform:translateY(-.6em) scale(1.6) rotate(-8deg);opacity:0}}
+.b [data-b="type"] .ch.on{animation:hl .5s ease-out both}
+@keyframes hl{from{color:var(--sky);text-shadow:0 0 12px var(--sky)}}
+.b [data-b="box"].on{animation:wipe .55s cubic-bezier(.75,0,.2,1) backwards}
+@keyframes wipe{from{clip-path:inset(0 100% 0 0)}}
+.b [data-b="rise"].on{animation:rise .7s cubic-bezier(.75,0,.2,1) backwards}
+@keyframes rise{from{clip-path:inset(100% 0 0 0)}}
+.b [data-b="fade"].on{animation:fade 1s ease backwards}
+@keyframes fade{from{opacity:0}}
+.b [data-b="pop"].on{animation:pop .6s cubic-bezier(.2,1.6,.4,1) backwards}
+@keyframes pop{from{transform:scale(.2) rotate(-40deg);opacity:0}}
+.b .now,.b .now .ch{animation:none!important}
+
+/* linee guida (blueprint) */
+.bp{position:absolute;inset:0;z-index:3;pointer-events:none;transition:opacity .9s}
+.bp.out{opacity:0}
+.bp .h,.bp .v{position:absolute;background:rgba(69,189,255,.3)}
+.bp .h{left:0;right:0;height:1px;transform-origin:0 50%;animation:lx .8s cubic-bezier(.7,0,.2,1) backwards}
+.bp .v{top:0;bottom:0;width:1px;transform-origin:50% 0;animation:ly .9s cubic-bezier(.7,0,.2,1) backwards}
+@keyframes lx{from{transform:scaleX(0)}}
+@keyframes ly{from{transform:scaleY(0)}}
+.bp .x{position:absolute;width:13px;height:13px;margin:-6px 0 0 -6px;animation:fade .4s backwards}
+.bp .x::before,.bp .x::after{content:"";position:absolute;background:var(--sky2)}
+.bp .x::before{left:6px;top:0;width:1px;height:13px}
+.bp .x::after{top:6px;left:0;height:1px;width:13px}
+.bp .tg{position:absolute;font:500 10px/1 var(--mono);padding:3px 5px;background:var(--deep);color:#fff;transform:translateY(-130%);animation:fade .4s backwards}
+
+/* agenti, selezioni, stelline */
+#layer{position:absolute;left:0;top:0;width:100%;height:0;z-index:70;pointer-events:none}
+.agent{position:absolute;left:0;top:0;opacity:0;transition:opacity .4s;will-change:transform}
+.agent.on{opacity:1}
+.agent svg{display:block;width:17px;height:17px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.6))}
+.sel{position:absolute;left:0;top:0;border:1.5px solid var(--sky);opacity:0;transition:opacity .25s}
+.sel.on{opacity:1}
+.sel.thin{border-style:dashed;border-width:1px}
+.sel b{position:absolute;width:7px;height:7px;background:#fff;border:1.5px solid var(--sky)}
+.sel b:nth-child(1){left:-4px;top:-4px}.sel b:nth-child(2){right:-4px;top:-4px}
+.sel b:nth-child(3){left:-4px;bottom:-4px}.sel b:nth-child(4){right:-4px;bottom:-4px}
+.sel em{position:absolute;left:-1px;top:-20px;font:500 10px/1 var(--mono);font-style:normal;padding:4px 6px;background:var(--sky);color:var(--navy);white-space:nowrap}
+.spk{position:absolute;width:18px;height:18px;margin:-9px 0 0 -9px;fill:#fff;filter:drop-shadow(0 0 6px var(--sky));animation:spk .9s ease-out forwards}
+@keyframes spk{0%{transform:scale(0) rotate(0)}40%{transform:scale(1.2) rotate(45deg)}100%{transform:scale(0) rotate(90deg)}}
+
+@media(prefers-reduced-motion:reduce){.floor,.track,.badge.live{animation:none}}
+</style>
+</head>
+<body>
+
+<nav class="nav" data-sec data-fixed>
+  <a class="logo" href="#top" data-b="pop" data-n="logo"><i><svg viewBox="0 0 24 24"><path d="M5 3l16 8-7 2.2L11.4 21z"/></svg></i>Luca<span>Bianchi</span></a>
+  <ul>
+    <li><a href="#chi" data-b="type">Chi sono</a></li>
+    <li><a href="#lavori" data-b="type">Lavori</a></li>
+    <li><a href="#strumenti" data-b="type">Strumenti</a></li>
+    <li><a href="#percorso" data-b="type">Percorso</a></li>
+  </ul>
+  <a class="btn" href="#contatti" data-b="box" data-n="btn.cta">Scrivimi →</a>
+</nav>
+
+<header class="hero" id="top" data-sec>
+  <div class="halo" data-b="fade" data-n="bg.glow"></div>
+  <div class="floor" data-b="rise" data-n="grid.floor"></div>
+  <div class="orb" data-b="pop" data-n="orb"></div>
+  <svg class="spark" style="right:9%;top:46%" data-b="pop" viewBox="0 0 24 24"><path d="M12 0c.8 6.4 4.8 10.6 12 12-7.2 1.4-11.2 5.6-12 12-.8-6.4-4.8-10.6-12-12C7.2 10.6 11.2 6.4 12 0z"/></svg>
+  <svg class="spark" style="left:46%;top:20%;width:14px;height:14px" data-b="pop" viewBox="0 0 24 24"><path d="M12 0c.8 6.4 4.8 10.6 12 12-7.2 1.4-11.2 5.6-12 12-.8-6.4-4.8-10.6-12-12C7.2 10.6 11.2 6.4 12 0z"/></svg>
+  <div class="wrap hero-grid">
+    <div>
+      <div class="hero-top">
+        <span class="label" data-b="type">// luca_bianchi.py</span>
+        <span class="chip" data-b="box" data-n="chip">Python · Automazione</span>
+      </div>
+      <h1 class="disp">
+        <span class="l" data-b="drop" data-n="h1">Luca</span>
+        <span class="l sky glow" data-b="drop" data-n="h1">Bianchi.</span>
+      </h1>
+      <p class="sub" data-b="drop" data-n="h2.sub">Web scraping e automazioni in Python.</p>
+      <p class="txt" data-b="type" data-n="p">Costruisco sistemi che sostituiscono, senza clamore, il lavoro che qualcuno faceva a mano ogni settimana.</p>
+      <div class="metric">
+        <span class="big" data-b="count" data-n="num" data-to="70" data-pre="−" data-suf="%">−70%</span>
+        <span class="chip dot" data-b="box" data-n="chip">di tempo su un report mensile</span>
+      </div>
+      <div class="cta">
+        <a class="btn" href="#contatti" data-b="box" data-n="btn.primary">Scrivimi →</a>
+        <a class="btn ghost" href="#lavori" data-b="box" data-n="btn.ghost">Vedi i lavori ↓</a>
+      </div>
+      <ul class="checks">
+        <li data-b="type">✓ Livorno, Italia</li>
+        <li data-b="type">✓ Italiano · Inglese</li>
+        <li data-b="type">✓ 30h+ a settimana</li>
+      </ul>
+    </div>
+    <div class="vis">
+      <div class="term a" data-b="box" data-n="window.scraper">
+        <div class="bar"><span>luca@scraper ~ run</span><i>● ● ●</i></div>
+        <div class="tb">
+          <p data-b="type"><span class="p">&gt;</span> attività trovate in città</p>
+          <p data-b="type"><span class="p">&gt;</span> filtrate quelle senza sito</p>
+          <p data-b="type"><span class="p">&gt;</span> dati mancanti arricchiti</p>
+          <p data-b="type"><span class="ok">✓</span> lead_settimana.csv</p>
+        </div>
+      </div>
+      <div class="term b" data-b="box" data-n="window.n8n">
+        <div class="bar"><span>pipeline · n8n</span><i>● ● ●</i></div>
+        <div class="tb">
+          <p data-b="type"><span class="ok">✓</span> risposte lette</p>
+          <p data-b="type"><span class="ok">✓</span> bounce gestiti</p>
+          <p data-b="type"><span class="ok">✓</span> invio a ritmo controllato</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div data-sec>
+  <div class="ticker" data-b="box" data-n="band.ticker">
+    <div class="track" data-b="fade" data-n="marquee">
+      <span>Web scraping ◆ Automazione ◆ Python ◆ n8n ◆ Integrazione API ◆ Bot ◆ Dati ◆ IA in locale ◆</span>
+      <span>Web scraping ◆ Automazione ◆ Python ◆ n8n ◆ Integrazione API ◆ Bot ◆ Dati ◆ IA in locale ◆</span>
+      <span aria-hidden="true">Web scraping ◆ Automazione ◆ Python ◆ n8n ◆ Integrazione API ◆ Bot ◆ Dati ◆ IA in locale ◆</span>
+      <span aria-hidden="true">Web scraping ◆ Automazione ◆ Python ◆ n8n ◆ Integrazione API ◆ Bot ◆ Dati ◆ IA in locale ◆</span>
+    </div>
+  </div>
+</div>
+
+<section class="sec center" id="chi" data-sec>
+  <div class="wrap">
+    <span class="label" data-b="type">// chi_sono.md</span>
+    <h2 class="disp">
+      <span class="l" data-b="drop" data-n="h2">Lo scraping è</span>
+      <span class="l sky glow" data-b="drop" data-n="h2">solo il 10%.</span>
+    </h2>
+    <p class="lead" data-b="type" data-n="p">Il resto è far sì che ogni passaggio fallisca in modo sicuro e riparta da solo, senza che nessuno lo guardi. Preferisco una domanda in più all'inizio che consegnare qualcosa che rispetta la richiesta alla lettera e ne manca il senso.</p>
+    <div class="stats">
+      <div class="stat" data-b="box" data-n="stat"><span class="n" data-b="count" data-to="70" data-suf="%">70%</span><span class="lb" data-b="type">di tempo risparmiato</span></div>
+      <div class="stat" data-b="box" data-n="stat"><span class="n" data-b="count" data-to="50" data-suf="+">50+</span><span class="lb" data-b="type">articoli venduti in automatico</span></div>
+      <div class="stat" data-b="box" data-n="stat"><span class="n" data-b="count" data-to="30" data-suf="h+">30h+</span><span class="lb" data-b="type">di disponibilità a settimana</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" data-sec>
+  <div class="band-in" data-b="box" data-n="section.sky">
+    <span class="label" data-b="type">// prima_e_dopo.log</span>
+    <h2 class="disp">
+      <span class="l" data-b="drop" data-n="h2">Prima ci voleva</span>
+      <span class="huge" data-b="drop" data-n="h2.huge">un giorno.</span>
+    </h2>
+    <span class="label end" data-b="type">// ora gira da solo, ogni settimana.</span>
+  </div>
+</section>
+
+<section class="sec" id="lavori" data-sec>
+  <div class="dots" data-b="fade" data-n="bg.dots"></div>
+  <div class="wrap">
+    <div class="center">
+      <span class="label" data-b="type">// lavori.py</span>
+      <h2 class="disp">
+        <span class="l" data-b="drop" data-n="h2">Cosa ho</span>
+        <span class="l sky glow" data-b="drop" data-n="h2">costruito.</span>
+      </h2>
+    </div>
+
+    <article class="proj" data-sec>
+      <div class="side">
+        <span class="num" data-b="drop" data-n="num">01</span>
+        <span class="meta" data-b="type">[01 — 04] // Ecowaste · Livorno</span>
+        <h3><span class="l" data-b="drop" data-n="h3">Lead gen</span><span class="l sky" data-b="drop" data-n="h3">su n8n</span></h3>
+        <p class="lead" data-b="type" data-n="p">Una pipeline in quattro stadi: scansione settimanale dei nuovi contatti, arricchimento dei dati mancanti, lettura di Outlook per risposte e bounce, invio con limiti di frequenza e gestione delle disiscrizioni.</p>
+        <div class="tags"><span class="chip" data-b="box">n8n</span><span class="chip" data-b="box">Outlook</span><span class="chip" data-b="box">API</span></div>
+      </div>
+      <div class="panel" data-b="box" data-n="window.pipeline">
+        <div class="bar"><span>pipeline.n8n</span><i>● ● ●</i></div>
+        <div class="rows">
+          <div class="r" data-b="type"><span><b>01</b> scansione nuovi contatti</span><span class="ok">✓</span></div>
+          <div class="r" data-b="type"><span><b>02</b> arricchimento dati</span><span class="ok">✓</span></div>
+          <div class="r" data-b="type"><span><b>03</b> risposte e bounce</span><span class="ok">✓</span></div>
+          <div class="r" data-b="type"><span><b>04</b> invio a ritmo controllato</span><span class="ok">✓</span></div>
+        </div>
+        <div class="pfoot" data-b="type"><span>● attiva</span><span>ogni settimana</span></div>
+      </div>
+    </article>
+
+    <article class="proj" data-sec>
+      <div class="side">
+        <span class="num" data-b="drop" data-n="num">02</span>
+        <span class="meta" data-b="type">[02 — 04] // Mondo Convenienza · Pisa</span>
+        <h3><span class="l" data-b="drop" data-n="h3">Report</span><span class="l sky" data-b="drop" data-n="h3">mensile</span></h3>
+        <p class="lead" data-b="type" data-n="p">Un'app desktop al posto di una routine mensile su foglio di calcolo fatta a mano. I dati entrano giorno per giorno e i file Excel in uscita sono identici a quelli che il team si aspettava: a valle non è cambiato niente.</p>
+        <div class="tags"><span class="chip" data-b="box">Python</span><span class="chip" data-b="box">Excel</span><span class="chip" data-b="box">−70% di tempo</span></div>
+      </div>
+      <div class="panel" data-b="box" data-n="window.report">
+        <div class="bar"><span>report_mensile.xlsx</span><i>● ● ●</i></div>
+        <div class="bars">
+          <i style="height:34%" data-b="rise"></i><i style="height:52%" data-b="rise"></i><i style="height:45%" data-b="rise"></i><i style="height:68%" data-b="rise"></i><i style="height:60%" data-b="rise"></i><i style="height:82%" data-b="rise"></i><i style="height:96%" data-b="rise"></i>
+        </div>
+        <div class="rows">
+          <div class="r" data-b="type"><span>prima: a mano, a fine mese</span><span>✕</span></div>
+          <div class="r" data-b="type"><span>ora: giorno per giorno</span><span class="ok">✓</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="proj" data-sec>
+      <div class="side">
+        <span class="num" data-b="drop" data-n="num">03</span>
+        <span class="meta" data-b="type">[03 — 04] // Progetto personale</span>
+        <h3><span class="l" data-b="drop" data-n="h3">Ricerca</span><span class="l sky" data-b="drop" data-n="h3">in locale</span></h3>
+        <p class="lead" data-b="type" data-n="p">Ricerca su grandi archivi personali con embedding calcolati sul computer. Al modello arriva solo la richiesta finale: i dati non lasciano la macchina.</p>
+        <div class="tags"><span class="chip" data-b="box">RAG</span><span class="chip" data-b="box">Embedding</span><span class="chip" data-b="box">Privacy</span></div>
+      </div>
+      <div class="panel" data-b="box" data-n="window.search">
+        <div class="bar"><span>cerca.py</span><i>● ● ●</i></div>
+        <div class="search" data-b="type"><span class="p">&gt;</span> cerca nei miei archivi_</div>
+        <div class="rows">
+          <div class="r" data-b="type"><span>embedding calcolati</span><span class="ok">sul PC</span></div>
+          <div class="r" data-b="type"><span>documenti inviati al modello</span><span class="ok">0</span></div>
+          <div class="r" data-b="type"><span>richiesta finale</span><span class="ok">solo questa</span></div>
+        </div>
+        <div class="pfoot" data-b="type"><span>● 100% in locale</span><span>privato</span></div>
+      </div>
+    </article>
+
+    <article class="proj" data-sec>
+      <div class="side">
+        <span class="num" data-b="drop" data-n="num">04</span>
+        <span class="meta" data-b="type">[04 — 04] // Nuova Carrozzeria Accademia</span>
+        <h3><span class="l" data-b="drop" data-n="h3">Vendite</span><span class="l sky" data-b="drop" data-n="h3">eBay</span></h3>
+        <p class="lead" data-b="type" data-n="p">Inserzioni, prezzi dinamici e riconoscimento dei ricambi con l'IA. Pezzi fermi in magazzino diventati vendite: oltre 50 articoli, per circa 4.000 euro.</p>
+        <div class="tags"><span class="chip" data-b="box">eBay</span><span class="chip" data-b="box">IA</span><span class="chip" data-b="box">≈ 4.000 €</span></div>
+      </div>
+      <div class="panel" data-b="box" data-n="window.ebay">
+        <div class="bar"><span>ebay_sync.py</span><i>● ● ●</i></div>
+        <div class="rows">
+          <div class="r" data-b="type"><span>ricambio riconosciuto</span><span class="ok">✓</span></div>
+          <div class="r" data-b="type"><span>prezzo aggiornato</span><span class="ok">✓</span></div>
+          <div class="r" data-b="type"><span>inserzione online</span><span class="ok">✓</span></div>
+        </div>
+        <div class="pfoot" data-b="type"><span>50+ venduti</span><span>≈ 4.000 €</span></div>
+      </div>
+    </article>
+
+    <p class="more" data-b="type">// e poi: un generatore di siti demo da Google Places, uno strumento di geolocalizzazione da immagini, giochi in Unity e VR.</p>
+  </div>
+</section>
+
+<section class="sec" id="strumenti" data-sec>
+  <div class="wrap two">
+    <div class="left">
+      <span class="label" data-b="type">// strumenti.json</span>
+      <h2 class="disp" style="margin-top:20px">
+        <span class="l" data-b="drop" data-n="h2">Con cosa</span>
+        <span class="l sky glow" data-b="drop" data-n="h2">lavoro.</span>
+      </h2>
+      <p class="lead" data-b="type" data-n="p">Python per tutto quello che si può scrivere, n8n per collegare i servizi, l'IA dove fa risparmiare tempo davvero.</p>
+    </div>
+    <div class="panel" data-b="box" data-n="window.stack">
+      <div class="bar"><span>stack.json</span><i>● ● ●</i></div>
+      <div class="kv"><span data-b="type">Linguaggio</span><div><span class="t s" data-b="pop">Python</span><span class="t" data-b="pop">Scripting</span></div></div>
+      <div class="kv"><span data-b="type">Scraping</span><div><span class="t s" data-b="pop">Scrapy</span><span class="t" data-b="pop">Beautiful Soup</span><span class="t" data-b="pop">Crawling</span></div></div>
+      <div class="kv"><span data-b="type">Automazione</span><div><span class="t s" data-b="pop">n8n</span><span class="t" data-b="pop">Bot</span><span class="t" data-b="pop">Integrazione API</span></div></div>
+      <div class="kv"><span data-b="type">Dati</span><div><span class="t" data-b="pop">Data extraction</span><span class="t" data-b="pop">Data mining</span><span class="t" data-b="pop">Excel</span><span class="t" data-b="pop">CSV</span></div></div>
+      <div class="kv"><span data-b="type">IA</span><div><span class="t s" data-b="pop">RAG in locale</span><span class="t" data-b="pop">Embedding</span></div></div>
+      <div class="kv"><span data-b="type">Altro</span><div><span class="t" data-b="pop">Unity</span><span class="t" data-b="pop">VR</span><span class="t" data-b="pop">CCNA</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="percorso" data-sec>
+  <div class="wrap two">
+    <div class="left">
+      <span class="label" data-b="type">// percorso.log</span>
+      <h2 class="disp" style="margin-top:20px">
+        <span class="l" data-b="drop" data-n="h2">Il mio</span>
+        <span class="l sky glow" data-b="drop" data-n="h2">percorso.</span>
+      </h2>
+      <p class="lead" data-b="type" data-n="p">Perito informatico, poi tanti lavori diversi. Ora automatizzo quello che ho visto fare a mano.</p>
+      <div class="cta">
+        <a class="btn" href="CV_Luca_Bianchi_IT.pdf" download data-b="box" data-n="btn.cv">CV italiano ↓</a>
+        <a class="btn ghost" href="CV_Luca_Bianchi_EN.pdf" download data-b="box" data-n="btn.cv">CV English ↓</a>
+      </div>
+    </div>
+    <ol class="steps">
+      <li class="step" data-b="box" data-n="step"><span>01</span><div><h3 data-b="drop">Automazioni e scraping</h3><time data-b="type">2025 → oggi · Lavoratore autonomo</time><p data-b="type">Python, n8n e integrazioni per aziende di Livorno e Pisa.</p></div></li>
+      <li class="step" data-b="box" data-n="step"><span>02</span><div><h3 data-b="drop">Finitura carrozzeria</h3><time data-b="type">2024 — 2025 · Nuova Carrozzeria Accademia</time><p data-b="type">Finitura dei veicoli prima della consegna. E l'automazione delle vendite eBay dell'officina.</p></div></li>
+      <li class="step" data-b="box" data-n="step"><span>03</span><div><h3 data-b="drop">Controllo accessi</h3><time data-b="type">2023 — 2024 · Studio Tecnico Navale Orsini</time><p data-b="type">Verifica di documenti e autorizzazioni di ogni mezzo in entrata e in uscita.</p></div></li>
+      <li class="step" data-b="box" data-n="step"><span>04</span><div><h3 data-b="drop">Perito informatico</h3><time data-b="type">2016 — 2022 · ITIS Galilei, Livorno</time><p data-b="type">Informatica e Telecomunicazioni. Poi E-Commerce Manager e CCNA Cisco.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="band contact" id="contatti" data-sec>
+  <div class="band-in" data-b="box" data-n="section.sky">
+    <span class="label" data-b="type">// contatti.txt</span>
+    <h2 class="disp" data-b="drop" data-n="h2">Scrivimi.</h2>
+    <a class="mail" href="mailto:bianchi.luca2302@gmail.com" data-b="drop" data-n="a.email">bianchi.luca2302@gmail.com</a>
+    <div class="cta">
+      <a class="btn dark" href="mailto:bianchi.luca2302@gmail.com" data-b="box" data-n="btn">Email →</a>
+      <a class="btn dark-ghost" href="https://www.upwork.com/freelancers/lucab59" target="_blank" rel="noopener" data-b="box" data-n="btn">Upwork</a>
+      <a class="btn dark-ghost" href="https://github.com/bianchiluca2302" target="_blank" rel="noopener" data-b="box" data-n="btn">GitHub</a>
+    </div>
+  </div>
+</section>
+
+<footer data-sec>
+  <div class="wrap">
+    <span data-b="type">© 2026 Luca Bianchi · Livorno</span>
+    <span data-b="type" id="credit">Costruito dagli agenti mentre scorrevi.</span>
+  </div>
+</footer>
+
+<div class="dock" aria-hidden="true">
+  <span class="avs" id="avs"></span>
+  <span><b id="nag">0</b> agenti</span>
+  <span class="hide-s">·</span>
+  <span class="hide-s"><b id="nl">0</b> / <span id="nt">0</span> livelli</span>
+  <span class="pb"><i id="pb"></i></span>
+  <span class="badge" id="st">costruzione</span>
+  <button id="re" title="Ricostruisci la pagina" type="button">↻</button>
+</div>
+
+<script>
+(() => {
+  const R = document.documentElement;
+  const $ = id => document.getElementById(id);
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const els = [...document.querySelectorAll('[data-b]')];
+  const total = els.length;
+  $('nt').textContent = total;
+  $('re').onclick = () => { scrollTo(0, 0); location.reload(); };
+  window.__agenti = true;
+
+  if (reduce) {
+    R.classList.remove('b');
+    $('nl').textContent = total; $('pb').style.transform = 'scaleX(1)';
+    $('st').textContent = 'online'; $('st').className = 'badge idle';
+    return;
+  }
+
+  /* ---------- testo diviso in lettere ---------- */
+  const split = el => {
+    const chars = [];
+    const walk = n => {
+      if (n.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach(part => {
+          if (!part) return;
+          if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+          const w = document.createElement('span'); w.className = 'w';
+          for (const c of part) { const s = document.createElement('span'); s.className = 'ch'; s.textContent = c; w.appendChild(s); chars.push(s); }
+          frag.appendChild(w);
+        });
+        n.replaceWith(frag);
+      } else if (n.nodeType === 1 && !n.hasAttribute('data-b')) [...n.childNodes].forEach(walk);
+    };
+    [...el.childNodes].forEach(walk);
+    return chars;
+  };
+
+  const U = els.map((el, i) => ({ el, i, type: el.dataset.b, state: 0 }));
+  const byEl = new Map(U.map(u => [u.el, u]));
+  U.forEach(u => {
+    const p = u.el.parentElement.closest('[data-b]');
+    u.parent = p ? byEl.get(p) : null;
+    u.sec = u.el.closest('[data-sec]');
+    u.fixed = u.sec.hasAttribute('data-fixed');
+    if (u.type === 'drop' || u.type === 'type') u.chars = split(u.el);
+    if (u.type === 'count') u.final = u.el.textContent;
+    u.name = u.el.dataset.n || (u.el.tagName.toLowerCase() + (u.el.classList[0] ? '.' + u.el.classList[0] : ''));
+  });
+  const secs = new Map([...document.querySelectorAll('[data-sec]')].map(s => [s, { on: false, at: 0, bp: null }]));
+
+  /* ---------- livello degli agenti ---------- */
+  const layer = document.createElement('div'); layer.id = 'layer'; document.body.appendChild(layer);
+  const COLORS = ['#45bdff', '#ffffff', '#9bdcff', '#1e90ff', '#ffd84d', '#7df4d6', '#c9ecff', '#45bdff', '#ffffff', '#5ad1ff', '#ffd84d', '#9bdcff', '#1e90ff', '#ffffff'];
+  const N = innerWidth < 700 ? 8 : 14;
+  $('nag').textContent = N;
+  $('avs').innerHTML = COLORS.slice(0, 5).map(c => `<i style="background:${c}"></i>`).join('');
+  const agents = Array.from({ length: N }, (_, i) => {
+    const el = document.createElement('div'); el.className = 'agent';
+    el.innerHTML = `<svg viewBox="0 0 24 24"><path d="M4 2l17 8.5-7.4 2.3L11 20.5z" fill="${COLORS[i]}" stroke="#05080d" stroke-width="1.4" stroke-linejoin="round"/></svg>`;
+    const sel = document.createElement('div'); sel.className = 'sel'; sel.innerHTML = '<b></b><b></b><b></b><b></b><em></em>';
+    layer.append(sel, el);
+    const a = { el, sel, tag: sel.querySelector('em'), busy: false, tok: 0, x: 0, y: 0 };
+    place(a, innerWidth / 2 + (i - N / 2) * 12, scrollY + innerHeight - 40);
+    return a;
+  });
+  function place(a, x, y) { a.x = x; a.y = y; a.el.style.transform = `translate3d(${x}px,${y}px,0)`; }
+
+  const doc = el => { const r = el.getBoundingClientRect(); return { x: r.left + scrollX, y: r.top + scrollY, w: r.width, h: r.height, r }; };
+  const ease = k => k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+  const frames = (ms, fn) => new Promise(res => {
+    let t0 = 0;
+    const f = t => { if (!t0) t0 = t; const k = Math.min(1, (t - t0) / ms); fn(k); k < 1 ? requestAnimationFrame(f) : res(); };
+    requestAnimationFrame(f);
+  });
+
+  /* volo su una curva verso un bersaglio che puo' muoversi */
+  function fly(a, target, slow = 1) {
+    const tok = a.tok, sx = a.x, sy = a.y, p0 = target();
+    const d = Math.hypot(p0.x - sx, p0.y - sy);
+    const ms = Math.min(760, 170 + d * .42) * slow;
+    const bend = (Math.random() - .5) * .6;
+    return frames(ms, k => {
+      if (a.tok !== tok) return;
+      const e = ease(k), p = target();
+      const mx = (sx + p.x) / 2 - (p.y - sy) * bend, my = (sy + p.y) / 2 + (p.x - sx) * bend;
+      place(a, (1 - e) * (1 - e) * sx + 2 * (1 - e) * e * mx + e * e * p.x, (1 - e) * (1 - e) * sy + 2 * (1 - e) * e * my + e * e * p.y);
+    });
+  }
+  function select(a, u, x, y, w, h) {
+    const s = a.sel.style;
+    s.transform = `translate3d(${x}px,${y}px,0)`; s.width = w + 'px'; s.height = h + 'px';
+    a.tag.textContent = `${u.name}  ${Math.round(w)}×${Math.round(h)}`;
+  }
+  function sparkle(x, y) {
+    const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    s.setAttribute('viewBox', '0 0 24 24'); s.setAttribute('class', 'spk');
+    s.innerHTML = '<path d="M12 0c.8 6.4 4.8 10.6 12 12-7.2 1.4-11.2 5.6-12 12-.8-6.4-4.8-10.6-12-12C7.2 10.6 11.2 6.4 12 0z"/>';
+    s.style.left = x + 'px'; s.style.top = y + 'px';
+    layer.appendChild(s); setTimeout(() => s.remove(), 950);
+  }
+
+  /* ---------- stato e barra ---------- */
+  let built = 0, active = 0, lastWork = performance.now();
+  function dock() {
+    $('nl').textContent = built;
+    $('pb').style.transform = `scaleX(${built / total})`;
+    const st = $('st');
+    if (active) { st.textContent = 'costruzione'; st.className = 'badge live'; }
+    else if (built === total) { st.textContent = 'online'; st.className = 'badge'; }
+    else { st.textContent = 'scorri ↓'; st.className = 'badge idle'; }
+  }
+  function done(u) {
+    if (u.state === 2) return;
+    u.state = 2; built++;
+    const s = secs.get(u.sec);
+    if (s.bp && s.keys.every(v => v.state === 2)) { s.bp.classList.add('out'); const bp = s.bp; setTimeout(() => bp.remove(), 1000); s.bp = null; }
+    dock();
+  }
+  function instant(u) {
+    u.el.classList.add('on', 'now');
+    if (u.chars) u.chars.forEach(c => c.classList.add('on'));
+    if (u.type === 'count') u.el.textContent = u.final;
+    done(u);
+  }
+
+  /* ---------- il lavoro di un agente su un livello ---------- */
+  async function work(a, u) {
+    u.state = 1; a.busy = true; a.tok++; active++; lastWork = performance.now();
+    a.el.classList.add('on'); dock();
+    const r = () => doc(u.el);
+    const t = u.type;
+
+    if (t === 'drop' || t === 'type') {
+      const first = () => { const c = u.chars[0]; const q = (c || u.el).getBoundingClientRect(); return { x: q.left + scrollX, y: q.top + scrollY + q.height * .6 }; };
+      await fly(a, first);
+      const q = r(); select(a, u, q.x, q.y, q.w, q.h);
+      a.sel.classList.add('on', 'thin');
+      u.el.classList.add('on');
+      const n = u.chars.length;
+      const ms = t === 'drop' ? Math.min(1150, 90 + n * 60) : Math.min(1400, 150 + n * 13);
+      let i = 0;
+      await frames(ms, k => {
+        const want = Math.min(n, Math.ceil(n * k));
+        while (i < want) u.chars[i++].classList.add('on');
+        const c = u.chars[Math.max(0, i - 1)];
+        if (c) {
+          const cr = c.getBoundingClientRect();
+          const j = t === 'drop' ? (Math.random() - .5) * 5 : 0;
+          place(a, cr.right + scrollX + j, cr.top + scrollY + cr.height * .62 + j);
+        }
+        const qq = r(); select(a, u, qq.x, qq.y, qq.w, qq.h);
+      });
+      while (i < n) u.chars[i++].classList.add('on');
+    } else if (t === 'count') {
+      await fly(a, () => { const q = r(); return { x: q.x, y: q.y }; });
+      a.sel.classList.add('on');
+      const to = +u.el.dataset.to, pre = u.el.dataset.pre || '', suf = u.el.dataset.suf || '';
+      u.el.textContent = pre + '0' + suf; u.el.classList.add('on');
+      await frames(950, k => {
+        u.el.textContent = pre + Math.round(to * ease(k)) + suf;
+        const q = r(); select(a, u, q.x, q.y, q.w, q.h); place(a, q.x + q.w, q.y + q.h);
+      });
+      u.el.textContent = u.final;
+    } else {
+      /* box, rise, fade, pop: trascina il riquadro, poi il livello compare */
+      await fly(a, () => { const q = r(); return { x: q.x, y: q.y }; });
+      a.sel.classList.add('on');
+      const q0 = r();
+      const ms = Math.min(620, 260 + Math.sqrt(q0.w * q0.h) * .45);
+      await frames(ms, k => {
+        const e = ease(k), q = r(), w = q.w * e, h = q.h * e;
+        select(a, u, q.x, q.y, w, h);
+        place(a, q.x + w, q.y + h);
+      });
+      u.el.classList.add('on');
+      await wait(t === 'box' ? 300 : 200);
+    }
+
+    a.sel.classList.remove('on', 'thin');
+    if (Math.random() < .4) { const q = r(); sparkle(q.x + q.w, q.y); }
+    done(u);
+    active--; a.busy = false; lastWork = performance.now();
+    dock(); pump();
+  }
+
+  /* ---------- chi fa cosa ---------- */
+  let queued = false;
+  function pump() {
+    if (queued) return; queued = true;
+    requestAnimationFrame(() => { queued = false; assign(); });
+  }
+  function assign() {
+    const now = performance.now(), top = scrollY, bot = scrollY + innerHeight;
+    let wake = Infinity;
+    for (const u of U) {
+      if (u.state !== 0) continue;
+      const s = secs.get(u.sec);
+      if (!s.on) continue;
+      if (u.parent && u.parent.state !== 2) continue;
+      if (u.fixed) continue;
+      const q = doc(u.el);
+      if (q.y + q.h < top - 80) instant(u);   /* gia' passato scorrendo veloce */
+    }
+    for (const a of agents) {
+      if (a.busy) continue;
+      let pick = null;
+      for (const u of U) {
+        if (u.state !== 0) continue;
+        const s = secs.get(u.sec);
+        if (!s.on) continue;
+        if (now < s.at) { wake = Math.min(wake, s.at); continue; }
+        if (u.parent && u.parent.state !== 2) continue;
+        if (!u.fixed) { const q = doc(u.el); if (q.y > bot + 40 || q.y + q.h < top - 80) continue; }
+        pick = u; break;
+      }
+      if (!pick) break;
+      work(a, pick);
+    }
+    if (wake < Infinity) setTimeout(pump, wake - now + 10);
+    dock();
+  }
+
+  /* agenti liberi: girano vicino al lavoro, poi spariscono */
+  setInterval(() => {
+    const idle = performance.now() - lastWork;
+    agents.forEach(a => {
+      if (a.busy) return;
+      if (idle > 2600) { a.el.classList.remove('on'); return; }
+      if (Math.random() < .5) {
+        a.tok++;
+        const tx = a.x + (Math.random() - .5) * 220, ty = a.y + (Math.random() - .5) * 140;
+        const x = Math.max(10, Math.min(innerWidth - 30, tx)), y = Math.max(scrollY + 70, Math.min(scrollY + innerHeight - 90, ty));
+        fly(a, () => ({ x, y }), 2.4);
+      }
+    });
+  }, 900);
+
+  /* ---------- linee guida di progetto all'ingresso di una sezione ---------- */
+  function blueprint(sec, s) {
+    if (sec.hasAttribute('data-fixed')) return;
+    const bp = document.createElement('div'); bp.className = 'bp';
+    const sr = sec.getBoundingClientRect();
+    const keys = U.filter(u => { if (u.sec !== sec || u.state !== 0 || u.type === 'type' || u.type === 'pop') return false; const r = u.el.getBoundingClientRect(); return r.top < innerHeight && r.bottom > 0; }).slice(0, 11);
+    const ys = new Set(), xs = new Set();
+    let html = '';
+    keys.forEach((u, k) => {
+      const r = u.el.getBoundingClientRect();
+      const x = Math.round(r.left - sr.left), y = Math.round(r.top - sr.top);
+      const d = `animation-delay:${k * 45}ms`;
+      if (![...ys].some(v => Math.abs(v - y) < 6)) { ys.add(y); html += `<i class="h" style="top:${y}px;${d}"></i>`; }
+      if (![...xs].some(v => Math.abs(v - x) < 6)) { xs.add(x); html += `<i class="v" style="left:${x}px;${d}"></i>`; }
+      html += `<i class="x" style="left:${x}px;top:${y}px;${d}"></i>`;
+      if (k < 7 && r.width > 40) html += `<i class="tg" style="left:${x}px;top:${y}px;${d}">${Math.round(r.width)} × ${Math.round(r.height)}</i>`;
+    });
+    bp.innerHTML = html;
+    sec.appendChild(bp);
+    s.bp = bp;
+    s.keys = keys.length ? keys : U.filter(u => u.sec === sec);
+  }
+  const io = new IntersectionObserver(es => {
+    es.forEach(e => {
+      if (!e.isIntersecting) return;
+      const s = secs.get(e.target);
+      if (s.on) return;
+      s.on = true; s.at = performance.now() + 420;
+      blueprint(e.target, s);
+      io.unobserve(e.target);
+    });
+    pump();
+  }, { rootMargin: '0px 0px -10% 0px' });
+
+  let tick = false;
+  addEventListener('scroll', () => { if (!tick) { tick = true; requestAnimationFrame(() => { tick = false; pump(); }); } }, { passive: true });
+  addEventListener('resize', pump);
+
+  scrollTo(0, 0);
+  dock();
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
+    secs.forEach((s, sec) => {
+      if (sec.hasAttribute('data-fixed')) { s.on = true; s.at = performance.now() + 250; }
+      else io.observe(sec);
+    });
+    pump();
+  });
+})();
+</script>
+</body>
+</html>
