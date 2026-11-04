@@ -45,7 +45,7 @@ a{color:inherit;text-decoration:none}
 /* tipografia */
 .label{font:500 14px/1.3 var(--mono);color:var(--sky);letter-spacing:.01em}
 .chip{display:inline-block;font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;padding:7px 10px;border:1px solid rgba(69,189,255,.55);color:var(--sky);white-space:nowrap}
-.disp{font-weight:900;text-transform:uppercase;letter-spacing:-.045em;line-height:.9}
+.disp{font-weight:900;text-transform:uppercase;letter-spacing:-.045em;word-spacing:.14em;line-height:.9}
 .disp .l{display:block}
 .sky{color:var(--sky)}
 .glow{text-shadow:0 0 42px rgba(69,189,255,.45)}
@@ -61,7 +61,7 @@ h2.disp{font-size:clamp(46px,8.2vw,124px)}
 .btn.dark-ghost{background:transparent;color:var(--navy);border:1.5px solid var(--navy);box-shadow:none}
 
 /* menu */
-.nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:calc(14px + env(safe-area-inset-top)) var(--pad) 14px;background:linear-gradient(var(--bg) 30%,rgba(5,8,13,0));}
+.nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:calc(14px + env(safe-area-inset-top)) var(--pad) 14px;background:rgba(5,8,13,.86);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid rgba(69,189,255,.14);}
 .logo{display:flex;align-items:center;gap:9px;font:900 19px/1 var(--disp);letter-spacing:-.03em;text-transform:uppercase}
 .logo i{display:grid;place-items:center;width:26px;height:26px;border:1.5px solid var(--sky);font-style:normal}
 .logo i svg{width:12px;height:12px;fill:var(--sky)}
@@ -69,7 +69,7 @@ h2.disp{font-size:clamp(46px,8.2vw,124px)}
 .nav ul{display:flex;gap:30px;list-style:none}
 .nav ul a{font:500 11px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute);transition:color .2s}
 .nav ul a:hover{color:var(--sky)}
-.nav .btn{padding:11px 16px;font-size:12px}
+.nav .btn{padding:11px 16px;font-size:12px;white-space:nowrap}
 .nav .r{display:flex;align-items:center;gap:16px}
 .lang{display:flex;border:1px solid rgba(69,189,255,.35);border-radius:999px;overflow:hidden;font:700 11px/1 var(--mono);letter-spacing:.1em}
 .lang button{all:unset;cursor:pointer;padding:8px 11px;color:var(--mute);transition:color .2s,background .2s}
@@ -107,7 +107,7 @@ h2.disp{font-size:clamp(46px,8.2vw,124px)}
 .tb p{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tb .p{color:var(--sky)}
 .tb .ok{color:var(--sky2)}
-@media(max-width:900px){.hero-grid{grid-template-columns:1fr}.vis{min-height:360px}.orb{top:auto;bottom:40%}}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr}.vis{min-height:360px}.orb{top:auto;bottom:40%;z-index:0;opacity:.45;width:90px}.hero-grid{position:relative;z-index:2}}
 
 /* nastro che scorre */
 .ticker{background:var(--sky);color:var(--navy);overflow:hidden;padding:13px 0;box-shadow:0 0 50px rgba(69,189,255,.35)}
@@ -132,7 +132,7 @@ h2.disp{font-size:clamp(46px,8.2vw,124px)}
 .band-in{position:relative;background:var(--sky);color:var(--navy);padding:clamp(80px,14vh,150px) var(--pad);text-align:center;overflow:hidden;background-image:radial-gradient(70% 90% at 50% 50%,#7fd2ff,var(--sky) 60%,#2aa6f0)}
 .band-in .label{color:var(--navy);display:block;margin-bottom:24px}
 .band h2{font-size:clamp(40px,7vw,104px)}
-.band .huge{display:block;font-size:clamp(40px,10vw,190px);color:#fff;-webkit-text-stroke:clamp(2px,.45vw,6px) var(--navy);paint-order:stroke fill;text-shadow:0 .05em 0 var(--navy);letter-spacing:-.06em;line-height:.85;margin-top:8px}
+.band .huge{display:block;font-size:clamp(40px,10vw,190px);color:#fff;-webkit-text-stroke:clamp(2px,.45vw,6px) var(--navy);paint-order:stroke fill;text-shadow:0 .05em 0 var(--navy);letter-spacing:-.06em;word-spacing:.16em;line-height:.85;margin-top:8px}
 .band .label.end{margin:34px 0 0}
 
 /* lavori */
@@ -142,7 +142,7 @@ h2.disp{font-size:clamp(46px,8.2vw,124px)}
 .num{display:block;font-weight:900;font-size:clamp(96px,13vw,200px);letter-spacing:-.06em;line-height:.8;color:var(--sky);text-shadow:0 0 50px rgba(69,189,255,.5)}
 .meta{display:block;margin-top:20px;font:500 13px/1.5 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
 .proj h3 .l{display:block}
-.proj h3{margin-top:14px;font-weight:900;text-transform:uppercase;letter-spacing:-.04em;line-height:.92;font-size:clamp(40px,5vw,72px)}
+.proj h3{word-spacing:.12em;margin-top:14px;font-weight:900;text-transform:uppercase;letter-spacing:-.04em;line-height:.92;font-size:clamp(40px,5vw,72px)}
 .proj .lead{margin-top:18px;font-size:.96em}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
 .panel{background:linear-gradient(180deg,#0d1722,#08101a);border:1px solid rgba(69,189,255,.4);box-shadow:0 40px 90px -40px rgba(69,189,255,.6)}
@@ -259,15 +259,16 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
 .proj.wide .side{display:grid;grid-template-columns:auto 1fr;gap:0 clamp(24px,5vw,70px);align-items:start}
 .proj.wide .side .num{grid-row:1/7}
 .proj.wide .side>*:not(.num){grid-column:2}
-.phones{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,2vw,26px);margin-top:clamp(36px,6vh,64px)}
+.proj.wide>.panel{margin-top:clamp(36px,6vh,64px)}
+.phones{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,2vw,26px);padding:clamp(14px,2.4vw,28px)}
 .ph{margin:0}
-.ph .frame{border:1px solid rgba(69,189,255,.5);border-radius:clamp(16px,2.2vw,28px);overflow:hidden;background:#fff;box-shadow:0 34px 80px -34px rgba(69,189,255,.65)}
+.ph .frame{border:1px solid rgba(69,189,255,.4);border-radius:10px;overflow:hidden;background:#fff}
 .ph img{display:block;width:100%;height:auto}
-.ph figcaption{margin-top:14px;font:400 14px/1.5 var(--mono);color:var(--mute)}
+.ph figcaption{margin-top:12px;font:400 12.5px/1.55 var(--mono);color:var(--mute)}
 .ph figcaption b{display:block;margin-bottom:4px;font:700 13px/1 var(--mono);color:var(--sky);letter-spacing:.1em}
 .linkrow{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
 .linkrow .btn{padding:13px 18px;font-size:13px}
-@media(max-width:860px){.proj.wide .side{display:block}.phones{grid-template-columns:repeat(2,1fr);row-gap:30px}}
+@media(max-width:860px){.proj.wide .side{display:block}.phones{grid-template-columns:repeat(2,1fr);row-gap:24px}.ph figcaption{font-size:11.5px}}
 
 /* linguaggi in ordine di importanza */
 .rk{display:grid;grid-template-columns:36px 1fr auto;gap:4px 12px;align-items:baseline;padding:14px 18px;border-bottom:1px solid rgba(69,189,255,.1)}
@@ -411,11 +412,14 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
         <div class="tags"><span class="chip" data-b="box">Flutter</span><span class="chip" data-b="box">Supabase</span><span class="chip" data-b="box">Postgres</span><span class="chip" data-b="box">TypeScript</span><span class="chip" data-b="box">IA</span></div>
         <div class="linkrow"><a class="btn ghost" href="https://endyo.it" target="_blank" rel="noopener" data-b="box" data-n="btn.endyo">endyo.it ↗</a></div>
       </div>
+      <div class="panel" data-b="box" data-n="window.endyo">
+      <div class="bar"><span>endyo · schermate</span><i>● ● ●</i></div>
       <div class="phones">
         <figure class="ph" data-b="rise" data-n="screen"><div class="frame"><img src="img/endyo-capo.jpg" width="520" height="1111" loading="lazy" alt="Scheda di un capo in Endyo: giacca biker in pelle con colore, taglia e costo per utilizzo"></div><figcaption><b>01 · IL CAPO</b>Una foto e il capo è catalogato: marca, colore, taglia e quanto costa ogni volta che lo indossi.</figcaption></figure>
         <figure class="ph" data-b="rise" data-n="screen"><div class="frame"><img src="img/endyo-oggi.jpg" width="520" height="1111" loading="lazy" alt="Schermata Oggi di Endyo con tre outfit proposti e i negozi partner"></div><figcaption><b>02 · OGGI</b>Ogni giorno: outfit dal tuo armadio, più idee dai negozi partner per ciò che manca.</figcaption></figure>
         <figure class="ph" data-b="rise" data-n="screen"><div class="frame"><img src="img/endyo-look-ai.jpg" width="520" height="1111" loading="lazy" alt="Schermata Look AI di Endyo: scelta del luogo, dall'ufficio all'aperitivo"></div><figcaption><b>03 · LOOK AI</b>Dici dove vai e l'IA compone il look giusto, con le generazioni giornaliere che restano.</figcaption></figure>
         <figure class="ph" data-b="rise" data-n="screen"><div class="frame"><img src="img/endyo-prova.jpg" width="520" height="1111" loading="lazy" alt="Prova virtuale di Endyo: outfit con trench beige indossato in una strada"></div><figcaption><b>04 · PROVA</b>Il look indossato, generato su una foto. Se non convince, lo rigeneri.</figcaption></figure>
+      </div>
       </div>
     </article>
 
@@ -633,7 +637,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
     'armadio AI': 'AI wardrobe',
     "Un'app che trasforma l'armadio in dati. Fotografi un capo e l'IA ricava nome, marca, colori e taglia, senza compilare nessun modulo. Ogni giorno propone outfit con quello che hai già, in base a meteo e impegni, e li mostra indossati su una tua foto.": "An app that turns your wardrobe into data. Photograph a garment and the AI works out its name, brand, colors and size, with no form to fill in. Every day it suggests outfits from what you already own, based on weather and plans, and shows them worn on a photo of you.",
     "Dietro c'è un backend su Supabase: database Postgres con regole di sicurezza per riga, 28 funzioni edge in Deno per le parti di IA (analisi dei capi, outfit, prova virtuale, stylist) e gli abbonamenti collegati.": "Behind it sits a Supabase backend: a Postgres database with row-level security, 28 edge functions in Deno for the AI parts (garment analysis, outfits, virtual try-on, stylist) and the connected subscriptions.",
-    'IA': 'AI',
+    'IA': 'AI', 'endyo · schermate': 'endyo · screens',
     'Scheda di un capo in Endyo: giacca biker in pelle con colore, taglia e costo per utilizzo': 'A garment page in Endyo: leather biker jacket with color, size and cost per wear',
     'Schermata Oggi di Endyo con tre outfit proposti e i negozi partner': 'Endyo Today screen with three suggested outfits and partner stores',
     "Schermata Look AI di Endyo: scelta del luogo, dall'ufficio all'aperitivo": 'Endyo Look AI screen: choosing the occasion, from the office to drinks',
