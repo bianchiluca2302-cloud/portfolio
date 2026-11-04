@@ -22,7 +22,7 @@
 :root{
   --bg:#05080d; --bg2:#0a1119; --panel:#0b131c;
   --sky:#45bdff; --sky2:#9bdcff; --deep:#1e90ff; --navy:#03111c;
-  --white:#f3f8fc; --mute:rgba(243,248,252,.64); --dim:rgba(243,248,252,.4);
+  --white:#f3f8fc; --mute:rgba(243,248,252,.8); --dim:rgba(243,248,252,.66);
   --line:rgba(69,189,255,.18);
   --disp:"Inter Tight","Arial Black",system-ui,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
@@ -37,8 +37,8 @@ a{color:inherit;text-decoration:none}
 [data-sec]{position:relative;isolation:isolate}
 
 /* tipografia */
-.label{font:500 13px/1.3 var(--mono);color:var(--sky);letter-spacing:.01em}
-.chip{display:inline-block;font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;padding:7px 10px;border:1px solid rgba(69,189,255,.55);color:var(--sky);white-space:nowrap}
+.label{font:500 14px/1.3 var(--mono);color:var(--sky);letter-spacing:.01em}
+.chip{display:inline-block;font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;padding:7px 10px;border:1px solid rgba(69,189,255,.55);color:var(--sky);white-space:nowrap}
 .disp{font-weight:900;text-transform:uppercase;letter-spacing:-.045em;line-height:.9}
 .disp .l{display:block}
 .sky{color:var(--sky)}
@@ -67,7 +67,7 @@ h2.disp{font-size:clamp(46px,8.2vw,124px)}
 @media(max-width:860px){.nav ul{display:none}}
 
 /* hero */
-.hero{min-height:100svh;padding:clamp(110px,16vh,150px) 0 90px;display:flex;align-items:center;overflow:hidden}
+.hero{min-height:100svh;padding:clamp(110px,16vh,150px) 0 120px;display:flex;align-items:center;overflow:hidden}
 .hero .halo{position:absolute;inset:0;z-index:0;background:radial-gradient(60% 55% at 70% 18%,rgba(30,144,255,.28),transparent 70%),radial-gradient(50% 40% at 15% 100%,rgba(69,189,255,.16),transparent 70%)}
 .floor{position:absolute;left:-40%;right:-40%;bottom:0;height:46%;z-index:0;transform:perspective(520px) rotateX(64deg);transform-origin:50% 100%;background-image:linear-gradient(rgba(69,189,255,.45) 1px,transparent 1px),linear-gradient(90deg,rgba(69,189,255,.45) 1px,transparent 1px);background-size:70px 70px;-webkit-mask-image:linear-gradient(to top,#000 10%,transparent 85%);mask-image:linear-gradient(to top,#000 10%,transparent 85%);animation:run 3.2s linear infinite}
 @keyframes run{to{background-position:0 70px}}
@@ -83,15 +83,15 @@ h2.disp{font-size:clamp(46px,8.2vw,124px)}
 .metric .big{font-weight:900;font-size:clamp(46px,5.4vw,76px);letter-spacing:-.05em;line-height:1;color:var(--sky);text-shadow:0 0 36px rgba(69,189,255,.45)}
 .chip.dot::before{content:"● ";color:var(--sky)}
 .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
-.checks{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:22px;list-style:none;font:500 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.checks{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:22px;list-style:none;font:500 12px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
 .checks li::first-letter{color:var(--sky)}
 .vis{position:relative;min-height:440px}
 .term{position:absolute;width:min(100%,380px);background:var(--panel);border:1px solid rgba(69,189,255,.4);box-shadow:0 30px 80px -30px rgba(69,189,255,.55)}
 .term.a{left:0;top:10px}
 .term.b{right:0;bottom:0;width:min(88%,330px)}
-.bar{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--sky);color:var(--navy);font:700 11px/1 var(--mono);letter-spacing:.04em}
+.bar{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:var(--sky);color:var(--navy);font:700 12px/1 var(--mono);letter-spacing:.04em}
 .bar i{font-style:normal;letter-spacing:.2em}
-.tb{padding:16px 16px 18px;font:400 13px/1.9 var(--mono);color:var(--white)}
+.tb{padding:16px 16px 18px;font:400 14px/1.9 var(--mono);color:var(--white)}
 .tb p{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tb .p{color:var(--sky)}
 .tb .ok{color:var(--sky2)}
@@ -112,7 +112,7 @@ h2.disp{font-size:clamp(46px,8.2vw,124px)}
 .stat{padding:8px 20px;border-left:1px solid var(--line)}
 .stat:first-child{border-left:0}
 .stat .n{display:block;font-weight:900;font-size:clamp(46px,6vw,84px);letter-spacing:-.05em;line-height:1;color:var(--white)}
-.stat .lb{display:block;margin-top:12px;font:500 11px/1.5 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.stat .lb{display:block;margin-top:12px;font:500 12px/1.5 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
 @media(max-width:620px){.stats{grid-template-columns:1fr;gap:26px}.stat{border-left:0;border-top:1px solid var(--line);padding-top:24px}}
 
 /* fascia azzurra */
@@ -120,7 +120,7 @@ h2.disp{font-size:clamp(46px,8.2vw,124px)}
 .band-in{position:relative;background:var(--sky);color:var(--navy);padding:clamp(80px,14vh,150px) var(--pad);text-align:center;overflow:hidden;background-image:radial-gradient(70% 90% at 50% 50%,#7fd2ff,var(--sky) 60%,#2aa6f0)}
 .band-in .label{color:var(--navy);display:block;margin-bottom:24px}
 .band h2{font-size:clamp(40px,7vw,104px)}
-.band .huge{display:block;font-size:clamp(84px,17vw,260px);color:#fff;text-shadow:0 6px 0 var(--navy);letter-spacing:-.06em;line-height:.85;margin-top:8px}
+.band .huge{display:block;font-size:clamp(40px,10vw,190px);color:#fff;-webkit-text-stroke:clamp(2px,.45vw,6px) var(--navy);paint-order:stroke fill;text-shadow:0 .05em 0 var(--navy);letter-spacing:-.06em;line-height:.85;margin-top:8px}
 .band .label.end{margin:34px 0 0}
 
 /* lavori */
@@ -128,32 +128,32 @@ h2.disp{font-size:clamp(46px,8.2vw,124px)}
 .proj{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,6vw,90px);align-items:center;margin-top:clamp(80px,14vh,140px)}
 .proj:nth-of-type(even) .side{order:2}
 .num{display:block;font-weight:900;font-size:clamp(96px,13vw,200px);letter-spacing:-.06em;line-height:.8;color:var(--sky);text-shadow:0 0 50px rgba(69,189,255,.5)}
-.meta{display:block;margin-top:20px;font:500 12px/1.5 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.meta{display:block;margin-top:20px;font:500 13px/1.5 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
 .proj h3 .l{display:block}
 .proj h3{margin-top:14px;font-weight:900;text-transform:uppercase;letter-spacing:-.04em;line-height:.92;font-size:clamp(40px,5vw,72px)}
 .proj .lead{margin-top:18px;font-size:.96em}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
 .panel{background:linear-gradient(180deg,#0d1722,#08101a);border:1px solid rgba(69,189,255,.4);box-shadow:0 40px 90px -40px rgba(69,189,255,.6)}
 .rows{padding:10px 0}
-.r{display:flex;justify-content:space-between;gap:12px;padding:12px 18px;border-bottom:1px solid rgba(69,189,255,.1);font:400 13px/1.4 var(--mono)}
+.r{display:flex;justify-content:space-between;gap:12px;padding:12px 18px;border-bottom:1px solid rgba(69,189,255,.1);font:400 14px/1.4 var(--mono)}
 .r:last-child{border-bottom:0}
 .r b{font-weight:500;color:var(--sky)}
 .r .ok{color:var(--sky2)}
-.pfoot{display:flex;justify-content:space-between;padding:12px 18px;border-top:1px solid rgba(69,189,255,.25);font:500 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--sky)}
+.pfoot{display:flex;justify-content:space-between;padding:12px 18px;border-top:1px solid rgba(69,189,255,.25);font:500 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--sky)}
 .bars{display:flex;align-items:flex-end;gap:10px;height:150px;padding:20px 18px 0}
 .bars i{flex:1;background:linear-gradient(var(--sky),rgba(69,189,255,.12));box-shadow:0 0 20px rgba(69,189,255,.3)}
 .search{margin:16px 18px 6px;padding:12px 14px;border:1px solid rgba(69,189,255,.5);font:400 14px/1 var(--mono)}
 .search .p{color:var(--sky)}
-.more{margin-top:clamp(70px,12vh,120px);text-align:center;font:500 13px/1.7 var(--mono);color:var(--dim)}
+.more{margin-top:clamp(70px,12vh,120px);text-align:center;font:500 14px/1.7 var(--mono);color:var(--mute)}
 @media(max-width:860px){.proj{grid-template-columns:1fr}.proj:nth-of-type(even) .side{order:0}}
 
 /* strumenti */
 .two{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(30px,6vw,90px);align-items:center}
 .kv{display:grid;grid-template-columns:130px 1fr;gap:14px;align-items:center;padding:16px 18px;border-bottom:1px solid rgba(69,189,255,.1)}
 .kv:last-child{border-bottom:0}
-.kv>span{font:500 11px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.kv>span{font:500 12px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
 .kv div{display:flex;flex-wrap:wrap;gap:7px}
-.t{font:500 12px/1 var(--mono);padding:7px 10px;background:rgba(69,189,255,.1);border:1px solid rgba(69,189,255,.35);color:var(--white)}
+.t{font:500 13px/1 var(--mono);padding:7px 10px;background:rgba(69,189,255,.1);border:1px solid rgba(69,189,255,.35);color:var(--white)}
 .t.s{background:var(--sky);color:var(--navy);border-color:var(--sky)}
 @media(max-width:860px){.two{grid-template-columns:1fr}}
 @media(max-width:480px){.kv{grid-template-columns:1fr;gap:10px}}
@@ -164,18 +164,18 @@ h2.disp{font-size:clamp(46px,8.2vw,124px)}
 .step:last-child{border-bottom:1px solid var(--line)}
 .step>span{font:700 13px/1.6 var(--mono);color:var(--sky)}
 .step h3{font-weight:800;font-size:clamp(20px,2vw,26px);letter-spacing:-.025em;line-height:1.1;text-transform:uppercase}
-.step time{display:block;margin-top:6px;font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--sky2)}
-.step p{margin-top:10px;font:400 13px/1.7 var(--mono);color:var(--mute)}
+.step time{display:block;margin-top:6px;font:500 12px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--sky2)}
+.step p{margin-top:10px;font:400 14px/1.7 var(--mono);color:var(--mute)}
 .left .cta{margin-top:30px}
 .left .lead{margin-top:22px}
 
 /* contatti */
 .contact .band-in{padding-top:clamp(90px,16vh,170px);padding-bottom:clamp(90px,16vh,170px)}
 .contact h2{font-size:clamp(76px,15vw,230px);letter-spacing:-.06em;line-height:.85}
-.mail{display:inline-block;margin-top:26px;font-weight:900;font-size:clamp(22px,4.2vw,58px);letter-spacing:-.04em;color:#fff;text-shadow:0 3px 0 var(--navy);word-break:break-word}
+.mail{display:inline-block;margin-top:26px;font-weight:900;font-size:clamp(22px,4.2vw,58px);letter-spacing:-.04em;color:var(--navy);border-bottom:4px solid #fff;word-break:break-word}
 .contact .cta{justify-content:center;margin-top:36px}
 footer{padding:28px 0 calc(110px + env(safe-area-inset-bottom))}
-footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font:500 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font:500 12px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
 
 /* barra degli agenti */
 .dock{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));z-index:80;display:flex;align-items:center;gap:12px;padding:8px 8px 8px 12px;transform:translateX(-50%);background:rgba(9,15,22,.92);border:1px solid rgba(69,189,255,.35);border-radius:999px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 14px 40px -12px rgba(0,0,0,.8);font:500 11px/1 var(--mono);color:var(--mute);white-space:nowrap;animation:dockin .6s cubic-bezier(.2,.9,.3,1.2) both}
@@ -240,6 +240,32 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
 .sel em{position:absolute;left:-1px;top:-20px;font:500 10px/1 var(--mono);font-style:normal;padding:4px 6px;background:var(--sky);color:var(--navy);white-space:nowrap}
 .spk{position:absolute;width:18px;height:18px;margin:-9px 0 0 -9px;fill:#fff;filter:drop-shadow(0 0 6px var(--sky));animation:spk .9s ease-out forwards}
 @keyframes spk{0%{transform:scale(0) rotate(0)}40%{transform:scale(1.2) rotate(45deg)}100%{transform:scale(0) rotate(90deg)}}
+
+
+/* Endyo: schermate vere */
+.proj.wide{grid-template-columns:1fr}
+.proj.wide .side{display:grid;grid-template-columns:auto 1fr;gap:0 clamp(24px,5vw,70px);align-items:start}
+.proj.wide .side .num{grid-row:1/7}
+.proj.wide .side>*:not(.num){grid-column:2}
+.phones{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,2vw,26px);margin-top:clamp(36px,6vh,64px)}
+.ph{margin:0}
+.ph .frame{border:1px solid rgba(69,189,255,.5);border-radius:clamp(16px,2.2vw,28px);overflow:hidden;background:#fff;box-shadow:0 34px 80px -34px rgba(69,189,255,.65)}
+.ph img{display:block;width:100%;height:auto}
+.ph figcaption{margin-top:14px;font:400 14px/1.5 var(--mono);color:var(--mute)}
+.ph figcaption b{display:block;margin-bottom:4px;font:700 13px/1 var(--mono);color:var(--sky);letter-spacing:.1em}
+.linkrow{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.linkrow .btn{padding:13px 18px;font-size:13px}
+@media(max-width:860px){.proj.wide .side{display:block}.phones{grid-template-columns:repeat(2,1fr);row-gap:30px}}
+
+/* linguaggi in ordine di importanza */
+.rk{display:grid;grid-template-columns:36px 1fr auto;gap:4px 12px;align-items:baseline;padding:14px 18px;border-bottom:1px solid rgba(69,189,255,.1)}
+.rk:last-child{border-bottom:0}
+.rk b{font:700 13px/1 var(--mono);color:var(--sky)}
+.rk strong{font-weight:800;font-size:clamp(17px,1.6vw,21px);letter-spacing:-.02em;text-transform:uppercase;line-height:1.1}
+.rk span{font:400 13px/1.4 var(--mono);color:var(--mute);text-align:right}
+.rk.top strong{color:var(--sky);text-shadow:0 0 24px rgba(69,189,255,.5)}
+.stk{display:grid;gap:22px}
+@media(max-width:560px){.rk{grid-template-columns:30px 1fr}.rk span{grid-column:2;text-align:left}}
 
 @media(prefers-reduced-motion:reduce){.floor,.track,.badge.live{animation:none}}
 </style>
@@ -314,10 +340,10 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
 <div data-sec>
   <div class="ticker" data-b="box" data-n="band.ticker">
     <div class="track" data-b="fade" data-n="marquee">
-      <span>Web scraping ◆ Automazione ◆ Python ◆ n8n ◆ Integrazione API ◆ Bot ◆ Dati ◆ IA in locale ◆</span>
-      <span>Web scraping ◆ Automazione ◆ Python ◆ n8n ◆ Integrazione API ◆ Bot ◆ Dati ◆ IA in locale ◆</span>
-      <span aria-hidden="true">Web scraping ◆ Automazione ◆ Python ◆ n8n ◆ Integrazione API ◆ Bot ◆ Dati ◆ IA in locale ◆</span>
-      <span aria-hidden="true">Web scraping ◆ Automazione ◆ Python ◆ n8n ◆ Integrazione API ◆ Bot ◆ Dati ◆ IA in locale ◆</span>
+      <span>Web scraping ◆ Automazione ◆ Python ◆ n8n ◆ Integrazione API ◆ Bot ◆ Dati ◆ Flutter ◆ Supabase ◆ TypeScript ◆ IA in locale ◆</span>
+      <span>Web scraping ◆ Automazione ◆ Python ◆ n8n ◆ Integrazione API ◆ Bot ◆ Dati ◆ Flutter ◆ Supabase ◆ TypeScript ◆ IA in locale ◆</span>
+      <span aria-hidden="true">Web scraping ◆ Automazione ◆ Python ◆ n8n ◆ Integrazione API ◆ Bot ◆ Dati ◆ Flutter ◆ Supabase ◆ TypeScript ◆ IA in locale ◆</span>
+      <span aria-hidden="true">Web scraping ◆ Automazione ◆ Python ◆ n8n ◆ Integrazione API ◆ Bot ◆ Dati ◆ Flutter ◆ Supabase ◆ TypeScript ◆ IA in locale ◆</span>
     </div>
   </div>
 </div>
@@ -340,12 +366,12 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
 
 <section class="band" data-sec>
   <div class="band-in" data-b="box" data-n="section.sky">
-    <span class="label" data-b="type">// prima_e_dopo.log</span>
+    <span class="label" data-b="type">// come_la_penso.txt</span>
     <h2 class="disp">
-      <span class="l" data-b="drop" data-n="h2">Prima ci voleva</span>
-      <span class="huge" data-b="drop" data-n="h2.huge">un giorno.</span>
+      <span class="l" data-b="drop" data-n="h2">Se qualcuno lo fa a mano</span>
+      <span class="huge" data-b="drop" data-n="h2.huge">si automatizza.</span>
     </h2>
-    <span class="label end" data-b="type">// ora gira da solo, ogni settimana.</span>
+    <span class="label end" data-b="type">// il lavoro ripetitivo lo faccio fare al computer.</span>
   </div>
 </section>
 
@@ -360,10 +386,28 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
       </h2>
     </div>
 
-    <article class="proj" data-sec>
+    <article class="proj wide" data-sec>
       <div class="side">
         <span class="num" data-b="drop" data-n="num">01</span>
-        <span class="meta" data-b="type">[01 — 04] // Ecowaste · Livorno</span>
+        <span class="meta" data-b="type">[01 — 05] // Endyo · app iOS e Android</span>
+        <h3><span class="l" data-b="drop" data-n="h3">Endyo</span><span class="l sky" data-b="drop" data-n="h3">armadio AI</span></h3>
+        <p class="lead" data-b="type" data-n="p">Un'app che trasforma l'armadio in dati. Fotografi un capo e l'IA ricava nome, marca, colori e taglia, senza compilare nessun modulo. Ogni giorno propone outfit con quello che hai già, in base a meteo e impegni, e li mostra indossati su una tua foto.</p>
+        <p class="lead" data-b="type" data-n="p">Dietro c'è un backend su Supabase: database Postgres con regole di sicurezza per riga, 28 funzioni edge in Deno per le parti di IA (analisi dei capi, outfit, prova virtuale, stylist) e gli abbonamenti collegati.</p>
+        <div class="tags"><span class="chip" data-b="box">Flutter</span><span class="chip" data-b="box">Supabase</span><span class="chip" data-b="box">Postgres</span><span class="chip" data-b="box">TypeScript</span><span class="chip" data-b="box">IA</span></div>
+        <div class="linkrow"><a class="btn ghost" href="https://endyo.it" target="_blank" rel="noopener" data-b="box" data-n="btn.endyo">endyo.it ↗</a></div>
+      </div>
+      <div class="phones">
+        <figure class="ph" data-b="rise" data-n="screen"><div class="frame"><img src="img/endyo-capo.jpg" width="520" height="1111" loading="lazy" alt="Scheda di un capo in Endyo: giacca biker in pelle con colore, taglia e costo per utilizzo"></div><figcaption><b>01 · IL CAPO</b>Una foto e il capo è catalogato: marca, colore, taglia e quanto costa ogni volta che lo indossi.</figcaption></figure>
+        <figure class="ph" data-b="rise" data-n="screen"><div class="frame"><img src="img/endyo-oggi.jpg" width="520" height="1111" loading="lazy" alt="Schermata Oggi di Endyo con tre outfit proposti e i negozi partner"></div><figcaption><b>02 · OGGI</b>Ogni giorno: outfit dal tuo armadio, più idee dai negozi partner per ciò che manca.</figcaption></figure>
+        <figure class="ph" data-b="rise" data-n="screen"><div class="frame"><img src="img/endyo-look-ai.jpg" width="520" height="1111" loading="lazy" alt="Schermata Look AI di Endyo: scelta del luogo, dall'ufficio all'aperitivo"></div><figcaption><b>03 · LOOK AI</b>Dici dove vai e l'IA compone il look giusto, con le generazioni giornaliere che restano.</figcaption></figure>
+        <figure class="ph" data-b="rise" data-n="screen"><div class="frame"><img src="img/endyo-prova.jpg" width="520" height="1111" loading="lazy" alt="Prova virtuale di Endyo: outfit con trench beige indossato in una strada"></div><figcaption><b>04 · PROVA</b>Il look indossato, generato su una foto. Se non convince, lo rigeneri.</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="proj" data-sec>
+      <div class="side">
+        <span class="num" data-b="drop" data-n="num">02</span>
+        <span class="meta" data-b="type">[02 — 05] // Ecowaste · Livorno</span>
         <h3><span class="l" data-b="drop" data-n="h3">Lead gen</span><span class="l sky" data-b="drop" data-n="h3">su n8n</span></h3>
         <p class="lead" data-b="type" data-n="p">Una pipeline in quattro stadi: scansione settimanale dei nuovi contatti, arricchimento dei dati mancanti, lettura di Outlook per risposte e bounce, invio con limiti di frequenza e gestione delle disiscrizioni.</p>
         <div class="tags"><span class="chip" data-b="box">n8n</span><span class="chip" data-b="box">Outlook</span><span class="chip" data-b="box">API</span></div>
@@ -382,8 +426,8 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
 
     <article class="proj" data-sec>
       <div class="side">
-        <span class="num" data-b="drop" data-n="num">02</span>
-        <span class="meta" data-b="type">[02 — 04] // Mondo Convenienza · Pisa</span>
+        <span class="num" data-b="drop" data-n="num">03</span>
+        <span class="meta" data-b="type">[03 — 05] // Mondo Convenienza · Pisa</span>
         <h3><span class="l" data-b="drop" data-n="h3">Report</span><span class="l sky" data-b="drop" data-n="h3">mensile</span></h3>
         <p class="lead" data-b="type" data-n="p">Un'app desktop al posto di una routine mensile su foglio di calcolo fatta a mano. I dati entrano giorno per giorno e i file Excel in uscita sono identici a quelli che il team si aspettava: a valle non è cambiato niente.</p>
         <div class="tags"><span class="chip" data-b="box">Python</span><span class="chip" data-b="box">Excel</span><span class="chip" data-b="box">−70% di tempo</span></div>
@@ -402,8 +446,8 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
 
     <article class="proj" data-sec>
       <div class="side">
-        <span class="num" data-b="drop" data-n="num">03</span>
-        <span class="meta" data-b="type">[03 — 04] // Progetto personale</span>
+        <span class="num" data-b="drop" data-n="num">04</span>
+        <span class="meta" data-b="type">[04 — 05] // Progetto personale</span>
         <h3><span class="l" data-b="drop" data-n="h3">Ricerca</span><span class="l sky" data-b="drop" data-n="h3">in locale</span></h3>
         <p class="lead" data-b="type" data-n="p">Ricerca su grandi archivi personali con embedding calcolati sul computer. Al modello arriva solo la richiesta finale: i dati non lasciano la macchina.</p>
         <div class="tags"><span class="chip" data-b="box">RAG</span><span class="chip" data-b="box">Embedding</span><span class="chip" data-b="box">Privacy</span></div>
@@ -422,8 +466,8 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
 
     <article class="proj" data-sec>
       <div class="side">
-        <span class="num" data-b="drop" data-n="num">04</span>
-        <span class="meta" data-b="type">[04 — 04] // Nuova Carrozzeria Accademia</span>
+        <span class="num" data-b="drop" data-n="num">05</span>
+        <span class="meta" data-b="type">[05 — 05] // Nuova Carrozzeria Accademia</span>
         <h3><span class="l" data-b="drop" data-n="h3">Vendite</span><span class="l sky" data-b="drop" data-n="h3">eBay</span></h3>
         <p class="lead" data-b="type" data-n="p">Inserzioni, prezzi dinamici e riconoscimento dei ricambi con l'IA. Pezzi fermi in magazzino diventati vendite: oltre 50 articoli, per circa 4.000 euro.</p>
         <div class="tags"><span class="chip" data-b="box">eBay</span><span class="chip" data-b="box">IA</span><span class="chip" data-b="box">≈ 4.000 €</span></div>
@@ -439,7 +483,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
       </div>
     </article>
 
-    <p class="more" data-b="type">// e poi: un generatore di siti demo da Google Places, uno strumento di geolocalizzazione da immagini, giochi in Unity e VR.</p>
+    <p class="more" data-b="type">// e poi: un generatore di siti demo da Google Places, uno strumento di geolocalizzazione da immagini, giochi in Unity, Roblox e VR. I lavori per i clienti li racconto senza mostrare i loro dati.</p>
   </div>
 </section>
 
@@ -451,16 +495,31 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
         <span class="l" data-b="drop" data-n="h2">Con cosa</span>
         <span class="l sky glow" data-b="drop" data-n="h2">lavoro.</span>
       </h2>
-      <p class="lead" data-b="type" data-n="p">Python per tutto quello che si può scrivere, n8n per collegare i servizi, l'IA dove fa risparmiare tempo davvero.</p>
+      <p class="lead" data-b="type" data-n="p">Python è la base. Poi uso quello che serve al progetto: TypeScript e Dart per le app, SQL per i dati, n8n per collegare i servizi, l'IA dove fa risparmiare tempo davvero. I linguaggi sono in ordine di importanza.</p>
+    </div>
+    <div class="stk">
+    <div class="panel" data-b="box" data-n="window.linguaggi">
+      <div class="bar"><span>linguaggi.txt · per importanza</span><i>● ● ●</i></div>
+      <div class="rk top" data-b="box"><b>01</b><strong>Python</strong><span>scraping, automazioni, app desktop, bot</span></div>
+      <div class="rk" data-b="box"><b>02</b><strong>TypeScript</strong><span>backend di Endyo (funzioni edge su Deno)</span></div>
+      <div class="rk" data-b="box"><b>03</b><strong>Dart · Flutter</strong><span>app mobile per iOS e Android</span></div>
+      <div class="rk" data-b="box"><b>04</b><strong>JavaScript</strong><span>siti, script e interfacce web</span></div>
+      <div class="rk" data-b="box"><b>05</b><strong>SQL</strong><span>database Postgres e sicurezza dei dati</span></div>
+      <div class="rk" data-b="box"><b>06</b><strong>HTML · CSS</strong><span>siti e landing page</span></div>
+      <div class="rk" data-b="box"><b>07</b><strong>C#</strong><span>giochi e VR con Unity</span></div>
+      <div class="rk" data-b="box"><b>08</b><strong>PowerShell</strong><span>automazioni su Windows</span></div>
+      <div class="rk" data-b="box"><b>09</b><strong>Luau</strong><span>giochi su Roblox</span></div>
+      <div class="rk" data-b="box"><b>10</b><strong>Swift</strong><span>parti native su iOS</span></div>
     </div>
     <div class="panel" data-b="box" data-n="window.stack">
       <div class="bar"><span>stack.json</span><i>● ● ●</i></div>
-      <div class="kv"><span data-b="type">Linguaggio</span><div><span class="t s" data-b="pop">Python</span><span class="t" data-b="pop">Scripting</span></div></div>
-      <div class="kv"><span data-b="type">Scraping</span><div><span class="t s" data-b="pop">Scrapy</span><span class="t" data-b="pop">Beautiful Soup</span><span class="t" data-b="pop">Crawling</span></div></div>
+      <div class="kv"><span data-b="type">Scraping</span><div><span class="t s" data-b="pop">Scrapy</span><span class="t" data-b="pop">Beautiful Soup</span><span class="t" data-b="pop">Crawling</span><span class="t" data-b="pop">Data extraction</span></div></div>
       <div class="kv"><span data-b="type">Automazione</span><div><span class="t s" data-b="pop">n8n</span><span class="t" data-b="pop">Bot</span><span class="t" data-b="pop">Integrazione API</span></div></div>
-      <div class="kv"><span data-b="type">Dati</span><div><span class="t" data-b="pop">Data extraction</span><span class="t" data-b="pop">Data mining</span><span class="t" data-b="pop">Excel</span><span class="t" data-b="pop">CSV</span></div></div>
-      <div class="kv"><span data-b="type">IA</span><div><span class="t s" data-b="pop">RAG in locale</span><span class="t" data-b="pop">Embedding</span></div></div>
-      <div class="kv"><span data-b="type">Altro</span><div><span class="t" data-b="pop">Unity</span><span class="t" data-b="pop">VR</span><span class="t" data-b="pop">CCNA</span></div></div>
+      <div class="kv"><span data-b="type">App e backend</span><div><span class="t s" data-b="pop">Flutter</span><span class="t s" data-b="pop">Supabase</span><span class="t" data-b="pop">Postgres</span><span class="t" data-b="pop">RevenueCat</span><span class="t" data-b="pop">Codemagic</span></div></div>
+      <div class="kv"><span data-b="type">IA</span><div><span class="t s" data-b="pop">Claude</span><span class="t" data-b="pop">GPT</span><span class="t" data-b="pop">RAG in locale</span><span class="t" data-b="pop">Embedding</span></div></div>
+      <div class="kv"><span data-b="type">Dati</span><div><span class="t" data-b="pop">Excel</span><span class="t" data-b="pop">CSV</span><span class="t" data-b="pop">Data mining</span></div></div>
+      <div class="kv"><span data-b="type">Lavoro</span><div><span class="t" data-b="pop">Git · GitHub</span><span class="t" data-b="pop">Unity · VR</span><span class="t" data-b="pop">CCNA</span></div></div>
+    </div>
     </div>
   </div>
 </section>
@@ -529,7 +588,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
   $('re').onclick = () => { scrollTo(0, 0); location.reload(); };
   window.__agenti = true;
 
-  if (reduce) {
+  if (reduce || /[?&]tutto/.test(location.search)) {
     R.classList.remove('b');
     $('nl').textContent = total; $('pb').style.transform = 'scaleX(1)';
     $('st').textContent = 'online'; $('st').className = 'badge idle';
